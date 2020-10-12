@@ -4,8 +4,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.min.js" />
-        <title>Editar cadastro</title>
-       
+		<link rel="stylesheet" type="text/css" href="cadastros.css" media="screen" />
+		<title>Cadastro</title>
+	   
        <script >
 			function fMasc(objeto,mascara) {
 				obj=objeto
@@ -61,35 +62,37 @@
     
     </head>
     <body>
-        <form action="/loginrealizado" method="post">
-            <div>
-                <label for="nome_completo">Nome completo</label>
+        <form action="/Tetris/rollingtetris.html" class="box" method="get">
+			<div>
+				<label for="nome_completo">Nome completo:</label> 
                 <input type="text" id="nome_completo" />
+			</div> <br>
+			
+			<div>
+                <label for="data_nascimento">Data de nascimento:</label>
+				<input type="date" class="disabilitado" id="data_nascimento" readonly />
             </div> <br>
+			
+			<div >
+				<label for="cpf">CPF:</label>
+				<input type="text" name="cpf" id="cpf" class="disabilitado" maxlength="14" onkeydown="javascript: fMasc( this, mCPF );"  readonly>     
+			</div> <br>
+			
             <div>
-                <label for="data_nascimento">Data de nascimento</label>
-                <input type="date" id="data_nascimento" disabled ="" />
-            </div> <br>
-            <div>
-                <label for="cpf">CPF</label>
-                <input type="text" name="cpf" id="cpf" maxlength="14" disabled ="" onkeydown="javascript: fMasc( this, mCPF );">
-                
-            </div> <br>
-            <div>
-                <label for="telefone">Telefone</label>
+				<label for="telefone">Telefone:</label>
                 <input type="text" name="telefone" id="telefone" maxlength="14" onkeydown="javascript: fMasc( this, mTel );">
                 
             </div> <br>
-            <div>
-                <label for="email">Email</label>
+            <div class="column-3 column label">
+				<label for="email">Email:</label>
                 <input type="text" id="email" />
             </div> <br>
             <div>
-                <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" disabled ="" />
+				<label for="usuario">Usuario:</label>
+                <input type="text" class="disabilitado" id="usuario" readonly />
             </div> <br>
             <div>
-                <label for="senha">Senha:</label>
+				<label for="senha">Senha:</label>
                 <input type="password" id="senha" />
             </div> <br>
 
