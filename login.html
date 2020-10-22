@@ -3,20 +3,25 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       
-        <title>Login</title>
-        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.min.js" />
+        <link rel="stylesheet" type="text/css" href="cadastros.css" media="screen" />
+		<title>Cadastro</title>
+
+    
     </head>
-    <body>
-        <form action="/loginrealizado" method="post">
+    <body class = "corpo">
+        <form action="/Tetris/rollingtetris.html" class="box" method="get">
+			
             <div>
-                <label for="usuario">Usuario:</label>
+				<label for="usuario">Usuario:</label>
                 <input type="text" id="usuario" />
-            </div>
+            </div> <br>
+
             <div>
-                <label for="senha">Senha:</label>
+				<label for="senha">Senha:</label>
                 <input type="password" id="senha" />
-            </div>
+            </div> <br>
+
             <div>
                 <button type="submit"  value="enviar">Enviar</button>
             </div>

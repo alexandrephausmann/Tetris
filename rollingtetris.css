@@ -4,7 +4,8 @@ nav a:visited, nav a:link {
 }
 
 nav{
-    background-color: lightgray;
+    background-color: #9932cc;
+    
 }
 
 nav > ul {
@@ -17,4 +18,9 @@ nav > ul > li {
     list-style: none;
     margin:0 5px 0 5px;
     padding: 20px;
+
+}
+    
+.corpo {
+    background-image: url("Imagem/games.jpg");
 }
