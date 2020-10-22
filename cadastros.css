@@ -2,6 +2,7 @@
 
 body{
     background-color: #5f7cba;
+    background-image: url("Imagem/games.jpg");
     
 }
 
@@ -80,7 +81,5 @@ label {
     background:#cccccc!important; 
 }
 
-.corpo {
-    background-image: url("Imagem/games.jpg");
-}
+
 
