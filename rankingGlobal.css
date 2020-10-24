@@ -1,0 +1,56 @@
+*{
+    margin:0px;
+}
+
+table,
+th,
+td {
+    border: 2px solid white;
+    border-radius: 10px;
+    vertical-align: middle;
+
+}
+
+th,
+td {
+    padding: 10px;
+    color: #9932cc;
+    font-weight: bolder;
+    background-color: white;
+    border-radius: 6px;
+}
+
+.corpo {
+    background-image: url("Imagem/games.jpg");
+    width: 400px;
+    padding: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color:white;
+    opacity: 1;
+    text-align: center; 
+
+}
+
+
+button {
+
+    border:0;
+    background: none;
+    background: white;
+    display: block;
+    margin: 10px;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 40px;
+    outline: none;
+    color: black;
+    border-radius: 24px;
+    transition: 0.20s;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+
+}
