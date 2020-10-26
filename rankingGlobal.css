@@ -20,7 +20,7 @@ td {
     border-radius: 6px;
 }
 
-.corpo {
+body {
     background-image: url("Imagem/games.jpg");
     width: 400px;
     padding: 30px;

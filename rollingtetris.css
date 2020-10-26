@@ -30,11 +30,51 @@ nav > ul > li {
   
 }
 
-.corpo {
+body{
     background-image: url("Imagem/games.jpg");
-    display: flex;
+}
+
+table,
+th,
+td {
+    border: 2px solid white;
+    border-radius: 10px;
+    vertical-align: middle;
+
+}
+
+th,
+td {
+    padding: 10px;
+    color: #9932cc;
+    font-weight: bolder;
+    background-color: white;
+    border-radius: 6px;
+}
+
+.corpo{
+    width: 40%;
     justify-content: center;
     align-items: center;
+    padding-left: 10px;
 }
+.tabelaLocal{
+    width: 30%;
+    height: 150px; 
+    padding-right: 100px;
+
+}
+
+.tabelaAtual{
+    width: 30%;
+    height: 900px; 
+    padding-left: 100px;    
+}
+
+.principal{
+    display:flex;
+}
+
+
 
 
