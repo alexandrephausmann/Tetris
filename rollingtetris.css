@@ -3,7 +3,6 @@
 }
 
 nav a:visited, nav a:link {
-    color: black;
     text-decoration: none;
 }
 
@@ -61,7 +60,7 @@ td {
 .tabelaLocal{
     width: 30%;
     height: 150px; 
-    padding-right: 100px;
+    padding-right: 90px;
 
 }
 
