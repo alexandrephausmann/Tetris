@@ -56,6 +56,7 @@ td {
     justify-content: center;
     align-items: center;
     padding-left: 10px;
+    background-color: lightseagreen;
 }
 .tabelaLocal{
     width: 30%;
@@ -74,6 +75,12 @@ td {
     display:flex;
 }
 
-
+table, th, td {
+    border: 1px solid black;
+  }
+  
+th, td {
+    padding: 10px;
+}
 
 
