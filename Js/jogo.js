@@ -21,7 +21,7 @@ const conjuntoPecas = [
 
 let peca = pecaAleatoria();
 
-setInterval(teste, 1000)
+setInterval(teste, 200)
 //colocaPecaTabuleiro(peca,0,3);
 
 
