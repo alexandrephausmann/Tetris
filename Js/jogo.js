@@ -1,4 +1,8 @@
 var fimDeJogo = false 
+var girar = false
+var statusOriginal = 1
+var testeGirar = 0
+var testeEsquerda = 0
 var pontuacao;
 var linhaAtual = 0;
 var qtdLinhas;
@@ -21,7 +25,7 @@ const conjuntoPecas = [
 
 let peca = pecaAleatoria();
 
-setInterval(teste, 200)
+setInterval(descerPeca, 1000)
 //colocaPecaTabuleiro(peca,0,3);
 
 

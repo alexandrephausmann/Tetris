@@ -10,6 +10,10 @@ class Peca {
       addLinha(){
         this.linha = parseInt(this.linha)+ 1
       }
+      
+      addColuna(){
+        this.coluna = parseInt(this.coluna )+ 1
+      }
 
       girarEsquerda(){
         status = parseInt(this.status)+ 1
@@ -19,11 +23,28 @@ class Peca {
           console.log("entrou no if")
           status = status % peca.id.length;
         }
+        girar = true;
         this.status = status;
         
-       // removerMovimentoAnterior(peca,this.linha,this.coluna)
+        testeGirar = testeGirar + 1
+        descerPeca("Girando")
 
         //this.limparPeca()
+      }
+
+      andarEsquerda(){
+
+        var coluna = parseInt(this.coluna) - 1
+        //if(coluna >= 0){
+          if(!colidiuEsquerda){
+            
+            this.coluna = coluna;
+            testeEsquerda = testeEsquerda + 1
+            descerPeca("Esquerda")
+    
+          }
+        //}
+
       }
 
       limparPeca(){

@@ -1,4 +1,5 @@
 var retornoColisao 
+var colidiuEsquerda
 
 function criaTabuleiro(colunas,linhas){
     
@@ -48,15 +49,49 @@ function pecaAleatoria(){
 }
 
 
-function descerPecaTabuleiro(peca,linhainicial,colunainicial){
+function descerPecaTabuleiro(peca,linhainicial,colunainicial,statusPeca){
 
     var colunaAux = colunainicial;
 
     if((linhainicial > 0) && (linhainicial < qtdLinhas)){
         var linhaAnterior = linhainicial -1;
-        removerMovimentoAnterior(peca,linhaAnterior,3)
+        if(statusPeca =="Esquerda"){
+            colunainicial = colunainicial + 1
+                
+        }
+        if(testeGirar > 1){
+            removerMovimentoAnterior(peca,linhainicial,colunainicial)
+        }else{
+            removerMovimentoAnterior(peca,linhaAnterior,colunainicial)
+        }
+        
+        linhaAnterior = peca.coluna
     }
 
+    if(girar){
+        
+        var status = parseInt(peca.status) + 1
+
+        console.log("status " + status)
+        console.log("qntd status " + peca.id.length/*this.id.length*/)
+        if(status == peca.id.length ) {
+          console.log("entrou no if 3 ")
+          status = status % peca.id.length;
+        }
+
+        if(statusOriginal == 0){
+            peca.status = 0
+            statusOriginal = 1
+        }else{
+            peca.status = status
+        }
+        
+        girar = false
+    }
+    /*if(statusPeca =="Esquerda"){
+        linhainicial = linhainicial - 1
+    }
+*/
     /*
     Criar objeto contendo a peça no movimento atual
     */ 
@@ -72,18 +107,26 @@ function descerPecaTabuleiro(peca,linhainicial,colunainicial){
                     var proximaLinha = linhainicial + 1 ;
                     var proximoElemento = document.getElementById("linha"+ proximaLinha + " coluna" + colunainicial);
                     pecaAtual.push("linha"+linhainicial + " coluna" + colunainicial);
-
-                    colisaoAbaixo(proximoElemento,elemento)
-                
+      
+                    if(statusPeca =="Esquerda"){
+                        var colunaEsquerda = colunainicial - 1
+                        var elementoEsquerda = document.getElementById("linha"+linhainicial + " coluna" + colunaEsquerda );
+                        colisaoEsquerda(elementoEsquerda)
+                    }else{
+                        colisaoAbaixo(proximoElemento)
+                    }
+                    
                     mudaCorTabuleiro(elemento,peca.cor)
                 }
             }
-            colunainicial += 1;
+            colunainicial += 1;           
         }
         colunainicial = colunaAux;
         linhainicial += 1;
-        peca.addLinha();
-
+        /*if(!girar){
+            peca.addLinha();
+        }*/
+        
     }
 
     if(retornoColisao){
@@ -96,10 +139,26 @@ function descerPecaTabuleiro(peca,linhainicial,colunainicial){
 
 }
 
+
 function removerMovimentoAnterior(peca,linhainicial,colunainicial){
 
     var colunaAux = colunainicial;
 
+    if(girar){
+        
+        var status = parseInt(peca.status) - 1
+
+        console.log("status 2 " + status)
+        console.log("qntd status 2 " + peca.id.length/*this.id.length*/)
+        if(status<0 ) {
+          console.log("entrou no if 2")
+          peca.status = peca.id.length - 1
+          statusOriginal = 0
+        }else{
+            peca.status = status;
+        }
+
+    }
     for(var i=0;i < peca.id[peca.status].length;i++){
 
         for(var k=0;k<peca.id[peca.status][i].length;k++){
@@ -114,13 +173,16 @@ function removerMovimentoAnterior(peca,linhainicial,colunainicial){
         }
         colunainicial = colunaAux;
         linhainicial += 1;
-        peca.addLinha();
+        /*if(!girar){
+            peca.addLinha();
+        }*/
+        
 
     }
 
 }
 
-function colisaoAbaixo(elemento,elementoAtual){
+function colisaoAbaixo(elemento){
   
     if(elemento != null){
         var corFundo = window.getComputedStyle(elemento);
@@ -132,6 +194,22 @@ function colisaoAbaixo(elemento,elementoAtual){
     }else{
         linhaAtual = qtdLinhas;
         retornoColisao = true;
+    }
+
+}
+
+function colisaoEsquerda(elemento){
+  
+    if(elemento != null){
+        var corFundo = window.getComputedStyle(elemento);
+        var status = elemento.getAttribute("status");
+        if((corFundo.backgroundColor!="rgb(255, 255, 255)" && status == "parado" ) || (corFundo.backgroundColor== null)){
+            //linhaAtual = qtdLinhas;
+            colidiuEsquerda = true;
+        }
+    }else{
+        //linhaAtual = qtdLinhas;
+        colidiuEsquerda = true;
     }
 
 }
@@ -152,26 +230,35 @@ function mudaStatusParado(elemento){
 function tiraElementoTabuleiro(elemento) {
     
     if(elemento != null){
-        var cor = "white"
+       var cor = "white"
+        //elemento.removeAttribute("style")
         elemento.style.backgroundColor = cor;
         elemento.removeAttribute("status")
-        elemento.removeAttribute("style")
+        //elemento.removeAttribute("style")
     }
 }
 
-function teste(){
+function descerPeca(statusPeca = "normal"){
 
     //alert("teste")   
     if(linhaAtual >= qtdLinhas){
         peca = pecaAleatoria();
         linhaAtual = 0;
-        descerPecaTabuleiro(peca,peca.linha,peca.coluna);
+        descerPecaTabuleiro(peca,peca.linha,peca.coluna,"normal");
     } else{
-        descerPecaTabuleiro(peca,linhaAtual,peca.coluna);
+        descerPecaTabuleiro(peca,peca.linha,peca.coluna,statusPeca);
     }
     
-    linhaAtual +=1
+    if(statusPeca == "normal"){
+        peca.addLinha();
+        linhaAtual +=1
+        testeGirar = 0
+        testeEsquerda = 0
+    }
+
     retornoColisao = false
+    colidiuEsquerda = false
+    
 
 }
 
@@ -190,10 +277,14 @@ var teclaEsquerda = 37
 var teclaCima = 38
 var teclaBaixo = 40
 
-if (evt.keyCode == 37) {
+if (evt.keyCode == teclaCima) {
 
     peca.girarEsquerda();
+}else if (evt.keyCode == teclaEsquerda) {
+
+    peca.andarEsquerda();
 }
+
 
 console.log("chave pressionada" +evt.keyCode)
 //var tq = peca.encostado(tabuleiro);
