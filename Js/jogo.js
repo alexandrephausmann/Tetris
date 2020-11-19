@@ -1,6 +1,8 @@
 var fimDeJogo = false 
 var girar = false
 var statusOriginal = 1
+var verificadorNulo = false
+var verificaGirada = false
 var testeGirar = 0
 var testeEsquerda = 0
 var pontuacao;

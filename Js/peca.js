@@ -17,6 +17,7 @@ class Peca {
 
       girarEsquerda(){
         status = parseInt(this.status)+ 1
+        var statusAntigo = parseInt(this.status)
         console.log("status " + status)
         console.log("qntd status " + peca.id.length/*this.id.length*/)
         if(status == peca.id.length ) {
@@ -25,9 +26,14 @@ class Peca {
         }
         girar = true;
         this.status = status;
-        
+      
         testeGirar = testeGirar + 1
         descerPeca("Girando")
+        
+        if(verificaGirada){
+          this.status = statusAntigo;  
+          verificaGirada = false
+        }
 
         //this.limparPeca()
       }
@@ -35,15 +41,51 @@ class Peca {
       andarEsquerda(){
 
         var coluna = parseInt(this.coluna) - 1
-        //if(coluna >= 0){
-          if(!colidiuEsquerda){
-            
-            this.coluna = coluna;
-            testeEsquerda = testeEsquerda + 1
-            descerPeca("Esquerda")
-    
+        var cont = 0;
+        var aux;
+        verificadorNulo = false;
+
+        if(coluna == -1){
+          aux = 0; 
+        }else if(coluna == -2){
+          aux = 1;
+        }
+
+        if(coluna < 0)
+        {
+          for(var i=0;i < peca.id[peca.status].length;i++){
+
+            for(var k=0;k<peca.id[peca.status][i].length;k++){
+               if(k == aux){
+                 if(peca.id[peca.status][i][aux] == 0){              
+                     
+                   cont = cont + 1
+                   
+                 }   
+               }           
+             }
+           }
+         
+          if(cont == peca.id[peca.status].length ){              
+                    
+            verificadorNulo = true
           }
-        //}
+          
+        }
+        
+
+        if(coluna > -1 || verificadorNulo == true ){
+          //if(coluna >= 0){
+            if(!colidiuEsquerda){
+              
+              this.coluna = coluna;
+              testeEsquerda = testeEsquerda + 1
+              descerPeca("Esquerda")
+      
+            }
+          //}
+        }
+        
 
       }
 

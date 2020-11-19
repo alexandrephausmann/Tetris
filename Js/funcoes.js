@@ -1,5 +1,6 @@
 var retornoColisao 
 var colidiuEsquerda
+var colunaAux
 
 function criaTabuleiro(colunas,linhas){
     
@@ -50,8 +51,8 @@ function pecaAleatoria(){
 
 
 function descerPecaTabuleiro(peca,linhainicial,colunainicial,statusPeca){
-
-    var colunaAux = colunainicial;
+    
+    colunaAux = colunainicial
 
     if((linhainicial > 0) && (linhainicial < qtdLinhas)){
         var linhaAnterior = linhainicial -1;
@@ -59,90 +60,108 @@ function descerPecaTabuleiro(peca,linhainicial,colunainicial,statusPeca){
             colunainicial = colunainicial + 1
                 
         }
-        if(testeGirar > 1){
-            removerMovimentoAnterior(peca,linhainicial,colunainicial)
+        if(girar && colunaAux < 1){
+            verificaGirada = true
         }else{
-            removerMovimentoAnterior(peca,linhaAnterior,colunainicial)
+            if(testeGirar > 1){
+                removerMovimentoAnterior(peca,linhainicial,colunainicial)
+            }else{
+                removerMovimentoAnterior(peca,linhaAnterior,colunainicial)
+            }
         }
+   
         
         linhaAnterior = peca.coluna
     }
-
-    if(girar){
-        
-        var status = parseInt(peca.status) + 1
-
-        console.log("status " + status)
-        console.log("qntd status " + peca.id.length/*this.id.length*/)
-        if(status == peca.id.length ) {
-          console.log("entrou no if 3 ")
-          status = status % peca.id.length;
-        }
-
-        if(statusOriginal == 0){
-            peca.status = 0
-            statusOriginal = 1
-        }else{
-            peca.status = status
-        }
-        
-        girar = false
-    }
-    /*if(statusPeca =="Esquerda"){
-        linhainicial = linhainicial - 1
-    }
-*/
-    /*
-    Criar objeto contendo a peça no movimento atual
-    */ 
-   var pecaAtual = [];
-
-    for(var i=0;i < peca.id[peca.status].length;i++){
-
-        for(var k=0;k<peca.id[peca.status][i].length;k++){
-
-            if(peca.id[peca.status][i][k] == 1){              
-                if (linhainicial < qtdLinhas){
-                    var elemento = document.getElementById("linha"+linhainicial + " coluna" + colunainicial);
-                    var proximaLinha = linhainicial + 1 ;
-                    var proximoElemento = document.getElementById("linha"+ proximaLinha + " coluna" + colunainicial);
-                    pecaAtual.push("linha"+linhainicial + " coluna" + colunainicial);
-      
-                    if(statusPeca =="Esquerda"){
-                        var colunaEsquerda = colunainicial - 1
-                        var elementoEsquerda = document.getElementById("linha"+linhainicial + " coluna" + colunaEsquerda );
-                        colisaoEsquerda(elementoEsquerda)
-                    }else{
-                        colisaoAbaixo(proximoElemento)
-                    }
-                    
-                    mudaCorTabuleiro(elemento,peca.cor)
-                }
-            }
-            colunainicial += 1;           
-        }
-        colunainicial = colunaAux;
-        linhainicial += 1;
-        /*if(!girar){
-            peca.addLinha();
-        }*/
-        
-    }
-
-    if(retornoColisao){
-        for(var k=0;k<pecaAtual.length;k++){
-            elemento = document.getElementById(pecaAtual[k]);
-            mudaStatusParado(elemento);
-        }    
-    }
     
+    adicionarProximoMovimento(peca,linhainicial,colunainicial,statusPeca)
 
+
+}
+
+function adicionarProximoMovimento(peca,linhainicial,colunainicial,statusPeca){
+
+    //if(colunainicial > -1){
+    if(girar && colunaAux < 1){
+        verificaGirada = true
+    }
+    else {
+
+        
+        if(girar){
+            
+            var status = parseInt(peca.status) + 1
+
+            console.log("status " + status)
+            console.log("qntd status " + peca.id.length/*this.id.length*/)
+            if(status == peca.id.length ) {
+            console.log("entrou no if 3 ")
+            status = status % peca.id.length;
+            }
+
+            if(statusOriginal == 0){
+                peca.status = 0
+                statusOriginal = 1
+            }else{
+                peca.status = status
+            }
+            
+            girar = false
+        }
+        /*if(statusPeca =="Esquerda"){
+            linhainicial = linhainicial - 1
+        }*/
+
+        
+        //Criar objeto contendo a peça no movimento atual
+    var pecaAtual = [];
+
+        for(var i=0;i < peca.id[peca.status].length;i++){
+
+            for(var k=0;k<peca.id[peca.status][i].length;k++){
+
+                if(peca.id[peca.status][i][k] == 1){              
+                    if (linhainicial < qtdLinhas){
+                        var elemento = document.getElementById("linha"+linhainicial + " coluna" + colunainicial);
+                        var proximaLinha = linhainicial + 1 ;
+                        var proximoElemento = document.getElementById("linha"+ proximaLinha + " coluna" + colunainicial);
+                        pecaAtual.push("linha"+linhainicial + " coluna" + colunainicial);
+        
+                        if(statusPeca =="Esquerda"){
+                            var colunaEsquerda = colunainicial - 1
+                            var elementoEsquerda = document.getElementById("linha"+linhainicial + " coluna" + colunaEsquerda );
+                            colisaoEsquerda(elementoEsquerda)
+                        }else{
+                            colisaoAbaixo(proximoElemento)
+                        }
+                        
+                        mudaCorTabuleiro(elemento,peca.cor)
+                    }
+                }
+                colunainicial += 1;           
+            }
+            colunainicial = colunaAux;
+            linhainicial += 1;
+            /*if(!girar){
+                peca.addLinha();
+            }*/
+            
+        }
+
+        if(retornoColisao){
+            for(var k=0;k<pecaAtual.length;k++){
+                elemento = document.getElementById(pecaAtual[k]);
+                mudaStatusParado(elemento);
+            }    
+        }
+    //}
+    }
 }
 
 
 function removerMovimentoAnterior(peca,linhainicial,colunainicial){
 
-    var colunaAux = colunainicial;
+    //var colunaAux = colunainicial;
 
     if(girar){
         
@@ -206,6 +225,7 @@ function colisaoEsquerda(elemento){
         if((corFundo.backgroundColor!="rgb(255, 255, 255)" && status == "parado" ) || (corFundo.backgroundColor== null)){
             //linhaAtual = qtdLinhas;
             colidiuEsquerda = true;
+            console.log("Colidiu o corno " + colidiuEsquerda)
         }
     }else{
         //linhaAtual = qtdLinhas;
@@ -246,6 +266,9 @@ function descerPeca(statusPeca = "normal"){
         linhaAtual = 0;
         descerPecaTabuleiro(peca,peca.linha,peca.coluna,"normal");
     } else{
+        if(statusPeca == "normal"){
+            girar = false
+        }
         descerPecaTabuleiro(peca,peca.linha,peca.coluna,statusPeca);
     }
     
@@ -287,11 +310,5 @@ if (evt.keyCode == teclaCima) {
 
 
 console.log("chave pressionada" +evt.keyCode)
-//var tq = peca.encostado(tabuleiro);
-//var aa = tq & 2;
-//var bb = tq & 4;
-//if (evt.keyCode == 39 && bb == 0) peca.x++;
-//if (evt.keyCode == 37 && aa == 0) peca.x--;
-//if (evt.keyCode == 40) avancarJogo();
-//desenharTudo();
+
 }
