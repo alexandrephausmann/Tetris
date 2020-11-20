@@ -31,7 +31,12 @@ nav > ul > li {
 
 body{
     background-image: url("Imagem/games.jpg");
+    overflow: hidden;
 }
+
+div.pagina {height:100%; overflow:hidden;}
+
+body, html {height:100%;}
 
 table,
 th,
@@ -82,5 +87,7 @@ table, th, td {
 th, td {
     padding: 10px;
 }
+
+
 
 

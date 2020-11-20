@@ -3,6 +3,8 @@ var girar = false
 var statusOriginal = 1
 var verificadorNulo = false
 var verificaGirada = false
+var lPrimeiraVez = true
+var testeExtremidade = 0
 var testeGirar = 0
 var testeEsquerda = 0
 var pontuacao;
@@ -27,7 +29,10 @@ const conjuntoPecas = [
 
 let peca = pecaAleatoria();
 
-setInterval(descerPeca, 1000)
+//setInterval(descerPeca, 500)
+
+setInterval(descidaAutomatica, 500)
+
 //colocaPecaTabuleiro(peca,0,3);
 
 

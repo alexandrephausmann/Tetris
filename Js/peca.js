@@ -16,92 +16,62 @@ class Peca {
       }
 
       girarEsquerda(){
-        status = parseInt(this.status)+ 1
-        var statusAntigo = parseInt(this.status)
-        console.log("status " + status)
-        console.log("qntd status " + peca.id.length/*this.id.length*/)
-        if(status == peca.id.length ) {
-          console.log("entrou no if")
-          status = status % peca.id.length;
+        var status 
+        var statusNumerico
+
+        if(typeof this.status === 'string'){
+          status = this.status
+          var statusNumerico = parseInt(status)
+          statusNumerico = statusNumerico + 1  
+        }else{
+          statusNumerico = this.status + 1
         }
+        var statusAntigo = parseInt(this.status)
+
+        console.log("status " + status)
+        console.log("qntd status " + peca.id.length)
+
+        if(statusNumerico == peca.id.length ) {
+          console.log("entrou no if")
+          statusNumerico = statusNumerico % peca.id.length;
+        }
+        
         girar = true;
-        this.status = status;
+        this.status = parseInt(statusNumerico);
       
         testeGirar = testeGirar + 1
-        descerPeca("Girando")
+        //descerPeca("Girando")
         
+        girarPeca(statusNumerico,statusAntigo)
+
         if(verificaGirada){
           this.status = statusAntigo;  
-          verificaGirada = false
         }
 
-        //this.limparPeca()
       }
 
       andarEsquerda(){
 
-        var coluna = parseInt(this.coluna) - 1
-        var cont = 0;
-        var aux;
-        verificadorNulo = false;
-
-        if(coluna == -1){
-          aux = 0; 
-        }else if(coluna == -2){
-          aux = 1;
-        }
-
-        if(coluna < 0)
-        {
-          for(var i=0;i < peca.id[peca.status].length;i++){
-
-            for(var k=0;k<peca.id[peca.status][i].length;k++){
-               if(k == aux){
-                 if(peca.id[peca.status][i][aux] == 0){              
-                     
-                   cont = cont + 1
-                   
-                 }   
-               }           
-             }
-           }
-         
-          if(cont == peca.id[peca.status].length ){              
-                    
-            verificadorNulo = true
-          }
-          
-        }
+        var colunaAntiga = parseInt(this.coluna)
+        var novaColuna = parseInt(this.coluna)
+        novaColuna = novaColuna - 1 
         
-
-        if(coluna > -1 || verificadorNulo == true ){
-          //if(coluna >= 0){
-            if(!colidiuEsquerda){
-              
-              this.coluna = coluna;
-              testeEsquerda = testeEsquerda + 1
-              descerPeca("Esquerda")
-      
-            }
-          //}
-        }
-        
+        this.coluna = novaColuna;
+        movimentarEsquerda(colunaAntiga,novaColuna)
 
       }
 
-      limparPeca(){
+      andarDireita(){
 
-      console.log("entrouuu")
-        for(var k=0;k<pecaAtual.length;k++){
-          elemento = document.getElementById(pecaAtual[k]);
-          
-          if(elemento != null){
-            var cor = "white"
-            elemento.style.backgroundColor = cor;
-            elemento.removeAttribute("status")
-            elemento.removeAttribute("style")
-         }
-       }    
+        var colunaAntiga = parseInt(this.coluna)
+        var novaColuna = parseInt(this.coluna)
+        novaColuna = novaColuna + 1 
+        this.coluna = novaColuna;
+        movimentarDireita(colunaAntiga,novaColuna)
 
+
+        verificaGirada = false;
       }
+
+     
 }
