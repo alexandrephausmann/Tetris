@@ -1,0 +1,8 @@
+div.pagina {height:100%; overflow:hidden;}
+
+body, html {height:100%;}
+
+body{
+    background-image: url("Imagem/games.jpg");
+    overflow: hidden;
+}

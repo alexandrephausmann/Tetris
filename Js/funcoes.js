@@ -130,7 +130,7 @@ function descidaAutomatica(){
 
 function girarPeca(statusNovo,statusAntigo){
 
-    peca.status = statusAntigo
+    peca.setStatus(statusAntigo)
 
     var pecaAtual = []
     var novaPeca = []
@@ -141,7 +141,7 @@ function girarPeca(statusNovo,statusAntigo){
         pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
     }
    
-    peca.status = statusNovo
+    peca.setStatus(statusNovo)
 
     novaPeca = mapearNovaPeca(peca,peca.linha,peca.coluna)
 
@@ -152,14 +152,62 @@ function girarPeca(statusNovo,statusAntigo){
         colocarPeca(novaPeca)
     }else{
         if(!indoProAlem){
-            mudaStatusParado(pecaAtual)
+            /*var colidiuBaixo
+            //colisao ao girar para a peça
+            colidiuBaixo = verificarColisaoBaixo(pecaAtual)
+
+            if(colidiuBaixo){
+                mudaStatusParado(pecaAtual)
+            }else{
+                peca.setStatus(statusAntigo)
+            }
+*/      
+        mudaStatusParado(pecaAtual)
+            
         }else{
-            peca.status = statusAntigo
+            peca.setStatus(statusAntigo)
         }
         
     }
 
 }
+/* colisao ao girar para a peça
+function verificarColisaoBaixo(pecaAtual){
+    
+    var proximaLinha;
+    var proximaColuna;
+    var linhaColuna;
+    var linhaAgora;
+    var colunaAgora;
+    var proximoQuadrado;
+    var retornoColidir = false
+
+    for(var teste = 0;teste<pecaAtual.length;teste++){
+
+        linhaColuna = pecaAtual[teste].split(" ")
+        linhaAgora = parseInt(linhaColuna[0].substring(5))
+        colunaAgora = parseInt(linhaColuna[1].substring(6))
+        proximaLinha = linhaAgora + 1
+        proximaColuna = colunaAgora 
+        proximoQuadrado = "linha" + proximaLinha + " coluna" + proximaColuna
+        
+        if(pecaAtual.indexOf(proximoQuadrado) == -1){
+            var quadradoProximo = document.getElementById(proximoQuadrado); 
+            var corFundo = window.getComputedStyle(quadradoProximo);
+            var status = quadradoProximo.getAttribute("status");
+ 
+            if((corFundo.backgroundColor!="rgb(255, 255, 255)" && status == "parado" ) || (corFundo.backgroundColor== null)){
+                
+                retornoColidir = true;
+                
+            }
+        
+        }
+    }
+
+    return retornoColidir;
+
+}*/
 
 function movimentarEsquerda(colunaAntiga,novaColuna){
 
@@ -174,7 +222,7 @@ function movimentarEsquerda(colunaAntiga,novaColuna){
     var colisao
     var verificadorVazio = false;
 
-    peca.coluna = colunaAntiga
+    peca.setColuna(colunaAntiga)
 
     if(testeGirar > 0){
 
@@ -184,7 +232,7 @@ function movimentarEsquerda(colunaAntiga,novaColuna){
         pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
     }
 
-    peca.coluna = novaColuna
+    peca.setColuna(novaColuna)
     
     verificadorVazio = verificaColunaVazia(novaColuna)
     
@@ -200,7 +248,7 @@ function movimentarEsquerda(colunaAntiga,novaColuna){
         retirarPeca(pecaAtual)
         colocarPeca(novaPeca)
     }else{
-        peca.coluna = colunaAntiga
+        peca.setColuna(colunaAntiga)
     }
 
 }
@@ -218,7 +266,7 @@ function movimentarDireita(colunaAntiga,novaColuna){
     var colisao
     var verificadorVazio = false;
 
-    peca.coluna = colunaAntiga
+    peca.setColuna(colunaAntiga)
 
     if(testeGirar > 0){
 
@@ -228,7 +276,7 @@ function movimentarDireita(colunaAntiga,novaColuna){
         pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
     }
 
-    peca.coluna = novaColuna
+    peca.setColuna(novaColuna)
     
     verificadorVazio = verificaColunaVazia(novaColuna)
     
@@ -244,7 +292,7 @@ function movimentarDireita(colunaAntiga,novaColuna){
         retirarPeca(pecaAtual)
         colocarPeca(novaPeca)
     }else{
-        peca.coluna = colunaAntiga
+        peca.setColuna(colunaAntiga)
     }
 
 }
@@ -301,13 +349,15 @@ function mudaStatusParado(pecaParada){
             pecaPara.setAttribute('status','parado');
         }
     }
+
+    retirarLinhas()
     
 }
 
 function mapearPeca(peca,linhainicial,colunainicial){
     
-    console.log("Peça primaria:Linha inicial: " + linhainicial)
-    console.log("Peça primaria:Coluna inicial: " + colunainicial)
+    //console.log("Peça primaria:Linha inicial: " + linhainicial)
+    //console.log("Peça primaria:Coluna inicial: " + colunainicial)
 
     linhainicial = linhainicial - 1
     var colAux
@@ -323,7 +373,7 @@ function mapearPeca(peca,linhainicial,colunainicial){
                 if(peca.id[peca.status][i][k] == 1){  
 
                     MapPeca.push("linha"+linhainicial + " coluna" + colunainicial); 
-                    console.log("Peça primaria: linha"+linhainicial + " coluna" + colunainicial);  
+      //              console.log("Peça primaria: linha"+linhainicial + " coluna" + colunainicial);  
                 }    
 
             }
@@ -339,8 +389,8 @@ function mapearPeca(peca,linhainicial,colunainicial){
 
 function mapearNovaPeca(peca,linhainicial,colunainicial){
 
-    console.log("Peça secundaria:Linha inicial: " + linhainicial)
-    console.log("Peça secundaria:Coluna inicial: " + colunainicial)
+  //  console.log("Peça secundaria:Linha inicial: " + linhainicial)
+  //  console.log("Peça secundaria:Coluna inicial: " + colunainicial)
 
     var colAux
     colAux = colunainicial 
@@ -358,7 +408,7 @@ function mapearNovaPeca(peca,linhainicial,colunainicial){
             if(peca.id[peca.status][i][k] == 1){              
                 
                 pecaNova.push("linha"+linhainicial + " coluna" + colunainicial);    
-                console.log("Peça secundaria: linha"+linhainicial + " coluna" + colunainicial);      
+    //            console.log("Peça secundaria: linha"+linhainicial + " coluna" + colunainicial);      
                 
             }
             colunainicial += 1;           
@@ -399,6 +449,7 @@ function colocarPeca(pecaColocada){
         pecaPosta = document.getElementById(pecaColocada[nX]);
         pecaPosta.style.backgroundColor = peca.cor;
         pecaPosta.setAttribute('status','movimento');
+        
 
     }
 
@@ -409,6 +460,7 @@ function colisaoBaixo(proximaPeca,statsPeca){
     var pecaTeste;
     var retorno = false
     var ultimaColuna = "coluna" + qtdColunas
+    var testeColisao = false
     indoProAlem = false
 
     for(var nY = 0; nY<proximaPeca.length;nY++){
@@ -435,6 +487,7 @@ function colisaoBaixo(proximaPeca,statsPeca){
                 linhaAtual = qtdLinhas;
             }
             retorno = true;
+            testeColisao = true
 
         }
     }
@@ -494,5 +547,140 @@ function colisaoBordaDireita(novaPeca){
     }
 
     return colidiuEsquerda;
+
+}
+
+function retirarLinhas(){
+
+    var linhasRetiradas = []; 
+    var quadradoTabuleiro;
+    var statusQuadrado;
+    var linhaCompleta = true;
+    
+    for(var nX = 0; nX<qtdLinhas;nX++){
+
+
+        for(var nY = 0;nY<qtdColunas;nY++){
+            quadradoTabuleiro = document.getElementById('linha' + nX.toString() + ' coluna' + nY.toString());
+            statusQuadrado = quadradoTabuleiro.getAttribute('status')
+            if(statusQuadrado != "parado"){
+                linhaCompleta = false;
+                break;
+            }
+
+        }
+        if(linhaCompleta){
+            linhasRetiradas.push(nX)
+        }
+        linhaCompleta = true;
+
+    }
+
+    if(linhasRetiradas.length > 0){
+        console.log("Linha completa")
+        console.log("Linhas preenchidas " + linhasRetiradas.length)
+        var quadrado;
+
+        for(var j = 0;j<linhasRetiradas.length;j++){
+
+            for(var nY = 0;nY<qtdColunas;nY++){
+
+                quadrado = document.getElementById('linha' + linhasRetiradas[j].toString() + ' coluna' + nY.toString());
+
+                retirarQuadrado(quadrado)
+            }
+        }
+
+        restaurarTabuleiro(linhasRetiradas)
+    }
+}
+
+function retirarQuadrado(quadrado){
+
+    if(quadrado != null){
+        var cor = "white"
+        quadrado.style.backgroundColor = cor;
+        quadrado.removeAttribute("status")
+    }
+}
+
+function restaurarTabuleiro(linhasRetiradas){
+
+    var inicioLinha = linhasRetiradas[linhasRetiradas.length-1] - 1
+    var dadosLinha = []
+    var dadosQuadrado = []
+    var corQuadrado;
+    var indiceLinha = 1;
+    var linhasAbaixo = 1;
+
+    for(var j = inicioLinha;j>0;j--){
+        if(linhasRetiradas[indiceLinha] == j){
+            
+            if(linhasRetiradas[indiceLinha] == (linhasRetiradas[indiceLinha-1] - 1 )){
+                linhasAbaixo = linhasAbaixo + 1  
+            }
+            indiceLinha = indiceLinha + 1
+            
+        }else{
+            for(var nY = 0;nY<qtdColunas;nY++){
+
+                quadradoTabuleiro = document.getElementById('linha' + j.toString() + ' coluna' + nY.toString());
+                statusQuadrado = quadradoTabuleiro.getAttribute('status')
+                if(statusQuadrado == "parado"){
+                    corQuadrado = quadradoTabuleiro.style.backgroundColor
+                    dadosQuadrado.push(corQuadrado,nY.toString())
+    
+                    dadosLinha.push(dadosQuadrado)
+
+                    dadosQuadrado = []
+                    retirarQuadrado(quadradoTabuleiro)
+                }
+    
+            }
+            linhasAbaixo = verificarColunasAbaixo(j,linhasRetiradas)
+            if(dadosLinha.length>0){
+                pintarAbaixo(j,linhasAbaixo,dadosLinha)
+            }
+            dadosLinha = []
+            linhasAbaixo = 1;
+        }    
+
+    }
+
+}
+
+function verificarColunasAbaixo(j,linhasRetiradas){
+
+    var cont = 0;
+
+    for(var aux=0;aux<linhasRetiradas.length;aux++){
+        if(j<linhasRetiradas[aux]){
+            cont = cont + 1
+        }
+    }
+
+    return cont
+
+}
+
+
+
+
+function pintarAbaixo(linhaAtual,linhasAbaixo,dadosLinha){
+
+    var pintarLinha = linhaAtual + linhasAbaixo
+
+    for(var nY = 0;nY<dadosLinha.length;nY++){
+
+        quadradoTabuleiro = document.getElementById('linha' + pintarLinha + ' coluna' + dadosLinha[nY][1]);
+        pintarQuadrado(quadradoTabuleiro,dadosLinha[nY][0])
+    }
+
+}
+
+function pintarQuadrado(quadradoTabuleiro,cor){
+
+    quadradoTabuleiro.style.backgroundColor = cor;
+    quadradoTabuleiro.setAttribute('status','parado');
 
 }

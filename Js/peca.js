@@ -7,6 +7,18 @@ class Peca {
         this.linha = 0;
       }
 
+      setStatus(status){
+        this.status = status;
+      }
+
+      setColuna(coluna){
+        this.coluna = coluna;
+      }
+
+      setLinha(linha){
+        this.linha = linha;
+      }
+
       addLinha(){
         this.linha = parseInt(this.linha)+ 1
       }
@@ -68,10 +80,7 @@ class Peca {
         novaColuna = novaColuna + 1 
         this.coluna = novaColuna;
         movimentarDireita(colunaAntiga,novaColuna)
-
-
         verificaGirada = false;
       }
 
-     
 }
