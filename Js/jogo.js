@@ -5,15 +5,31 @@ var verificadorNulo = false
 var verificaGirada = false
 var lPrimeiraVez = true
 var testeExtremidade = 0
+var modoInvertido = false;
+
+var finaldeJogo1 = false;
+var finaldeJogo2 = false;
+var fimNormal = false;
+var fimInvertido = false;
+
 var testeGirar = 0
 var testeEsquerda = 0
-var pontuacao;
+var pontuacao = 0;
+var linhasEliminadas = 0;
 var linhaAtual = 0;
+var nivel = 0;
 var qtdLinhas;
 var qtdColunas;
+var segundos = 0;
+var velocidade = 500;
+
+var manual = false;
 //comecarJogo();
 qtdLinhas = 20
 qtdColunas = 10
+/*
+qtdLinhas = 44
+qtdColunas = 20*/
 
 criaTabuleiro(qtdColunas,qtdLinhas)
 
@@ -29,14 +45,4 @@ const conjuntoPecas = [
 
 let peca = pecaAleatoria();
 
-//setInterval(descerPeca, 500)
-
-setInterval(descidaAutomatica, 500)
-
-//colocaPecaTabuleiro(peca,0,3);
-
-
-/*
-var elemento = document.getElementById("linha0 coluna7")
-
-mudaCorTabuleiro(elemento,peca.cor);*/
+setInterval(descidaAutomatica, velocidade)

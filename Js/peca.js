@@ -27,6 +27,16 @@ class Peca {
         this.coluna = parseInt(this.coluna )+ 1
       }
 
+      removeLinha(){
+       
+        this.linha = parseInt(this.linha)- 1
+        
+      }
+
+      removeColuna(){
+        this.coluna = parseInt(this.coluna )- 1
+      }
+
       girarEsquerda(){
         var status 
         var statusNumerico

@@ -63,8 +63,14 @@ var teclaCima = 38
 var teclaBaixo = 40
 
 if (evt.keyCode == teclaCima) {
-
-    peca.girarEsquerda();
+    if(modoInvertido){
+        manual = true;
+        subidaAutomatica()
+        manual = false;
+    }else{
+        peca.girarEsquerda();
+    }
+   
 }else if (evt.keyCode == teclaEsquerda) {
 
     peca.andarEsquerda();
@@ -72,8 +78,15 @@ if (evt.keyCode == teclaCima) {
 
     peca.andarDireita();
 }else if (evt.keyCode == teclaBaixo) {
-
-    descidaAutomatica()
+    
+    if(modoInvertido){
+        peca.girarEsquerda(); 
+    }else{
+        manual = true;
+        descidaAutomatica()
+        manual = false;
+    }
+    
 }
 
 console.log("chave pressionada" +evt.keyCode)
@@ -81,53 +94,257 @@ console.log("chave pressionada" +evt.keyCode)
 }
 
 function descidaAutomatica(){
- 
-    if(linhaAtual >= qtdLinhas){
-        peca = pecaAleatoria();
-        linhaAtual = 0;
-    
-    }
-    
-    var pecaAtual = []
-    var novaPeca = []
-    var colisao
-/*
-    if(testeGirar > 1){
-        pecaAtual = mapearPeca(peca,peca.linha+1,peca.coluna)
+
+   
+    if(modoInvertido){
+        if(!finaldeJogo1 && !finaldeJogo2){
+            subidaAutomatica();
+        }else{
+            if(!fimInvertido){
+                setTimeout(function(){ alert("Fim de jogo " ); }, 50)
+                fimInvertido = true;
+            }
+        }
     }else{
-        pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
-    }
-    */
+        if(!fimDeJogo && !finaldeJogo2){
 
-    pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
+            if(!manual){
+                tempo = document.getElementById("tempo")
+                
+                tempo.innerHTML = parseInt(segundos);
 
-    novaPeca = mapearNovaPeca(peca,peca.linha,peca.coluna)
-
-    colisao = colisaoBaixo(novaPeca,"AUTOMATICO")
-
-    if(!colisao){
-        retirarPeca(pecaAtual)
-        colocarPeca(novaPeca)
-    }else{
-        mudaStatusParado(pecaAtual)
+                segundos = segundos + (velocidade/1000)
+            }
+            
+            if(linhaAtual >= qtdLinhas){
+                peca = pecaAleatoria();
+                linhaAtual = 0;
+            
+            }
+            
+            var pecaAtual = []
+            var novaPeca = []
+            var colisao
+        /*
+            if(testeGirar > 1){
+                pecaAtual = mapearPeca(peca,peca.linha+1,peca.coluna)
+            }else{
+                pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
+            }
+            */
+        
+            pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
+        
+            novaPeca = mapearNovaPeca(peca,peca.linha,peca.coluna)
+        
+            colisao = colisaoBaixo(novaPeca,"AUTOMATICO")
+        
+            if(!colisao){
+                retirarPeca(pecaAtual)
+                colocarPeca(novaPeca)
+            }else{
+                mudaStatusParado(pecaAtual)
+                verificaFimDeJogo(novaPeca)
+            }
+            
+            
+            peca.addLinha();
+            linhaAtual +=1
+            testeGirar = 0
+            colidiuEsquerda = false
+            testeGirandoAndando = 0
+            /*testeEsquerda = 0
+            testeExtremidade = 0
+            }
+        
+            retornoColisao = false
+            colidiuEsquerda = false*/
+        }else{
+            if(!fimNormal){
+                finaldeJogo1 = true;
+                setTimeout(function(){ alert("Fim de jogo " ); }, 50)
+                fimNormal = true;
+            }
+        }
     }
     
-    
-    peca.addLinha();
-    linhaAtual +=1
-    testeGirar = 0
-    colidiuEsquerda = false
-    testeGirandoAndando = 0
-    /*testeEsquerda = 0
-    testeExtremidade = 0
-    }
-
-    retornoColisao = false
-    colidiuEsquerda = false*/
-
 
 }
 
+function subidaAutomatica(){
+
+    if(!finaldeJogo1){
+
+        if(!manual){
+            tempo = document.getElementById("tempo")
+       
+            tempo.innerHTML =  parseInt(segundos)
+
+            segundos = segundos + (velocidade/1000)
+        }
+
+        if(linhaAtual < 0){
+            peca = pecaAleatoria();
+            linhaAtual = qtdLinhas - 1;
+            peca.setLinha(linhaAtual);
+    
+        }
+        var pecaAtual = []
+        var novaPeca = []
+        var colisao
+
+        pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
+    
+        novaPeca = mapearNovaPeca(peca,peca.linha-2,peca.coluna)
+    
+        colisao = colisaoCima(novaPeca,"AUTOMATICO")
+    
+        if(!colisao){
+            retirarPeca(pecaAtual)
+            colocarPeca(novaPeca)
+        }else{
+            mudaStatusParado(pecaAtual)
+            verificaFimDeJogo(novaPeca)
+        }
+        
+        
+        peca.removeLinha();
+        linhaAtual -=1
+        testeGirar = 0
+        colidiuEsquerda = false
+        testeGirandoAndando = 0
+        /*testeEsquerda = 0
+        testeExtremidade = 0
+        }
+    
+        retornoColisao = false
+        colidiuEsquerda = false*/
+    }
+
+}
+
+function colisaoCima(proximaPeca,statsPeca){
+    
+    var pecaTeste;
+    var retorno = false
+    var ultimaColuna = "coluna" + qtdColunas
+    var testeColisao = false
+    indoProAlem = false
+
+    for(var nY = 0; nY<proximaPeca.length;nY++){
+
+        pecaTeste = document.getElementById(proximaPeca[nY]);
+
+        if((proximaPeca[nY].indexOf("coluna-1") != -1) || proximaPeca[nY].indexOf(ultimaColuna) != -1){
+            indoProAlem = true
+        }
+
+        if(pecaTeste != null){
+            var corFundo = window.getComputedStyle(pecaTeste);
+            var status = pecaTeste.getAttribute("status");
+            if((corFundo.backgroundColor!="rgb(255, 255, 255)" && status == "parado" ) || (corFundo.backgroundColor== null)){
+                if(statsPeca == "AUTOMATICO"){
+                    linhaAtual = -1;
+                }
+                
+                retorno = true;
+                
+            }
+        }else{
+            if(statsPeca == "AUTOMATICO"){
+                linhaAtual = -1;
+            }
+            retorno = true;
+            testeColisao = true
+
+        }
+    }
+
+    return retorno;
+
+}
+
+
+
+function verificaFimDeJogo(novaPeca){
+
+    
+    var pecaTeste;
+    var ultimaColuna = "coluna" + qtdColunas
+    var testeColisao = false
+    var testeFimJogo = false
+    var linhaFinal = 0;
+    indoProAlem = false
+
+    for(var nY = 0; nY<novaPeca.length;nY++){
+
+        pecaTeste = document.getElementById(novaPeca[nY]);
+
+        if((novaPeca[nY].indexOf("coluna-1") != -1) || novaPeca[nY].indexOf(ultimaColuna) != -1){
+            indoProAlem = true
+        }
+
+        if(modoInvertido){
+            linhaFinal = qtdLinhas - 2;
+        }
+        if((novaPeca[nY].indexOf("linha" + linhaFinal) != -1)){
+
+            if(pecaTeste != null){
+                    
+                var status = pecaTeste.getAttribute("status");
+                if(status == "parado"){
+                    testeFimJogo = true;
+                    pintarQuadrado(pecaTeste,peca.cor)
+                    fimDeJogo = true; 
+                    if(modoInvertido){
+                        //pintarPeca(novaPeca);
+                        finaldeJogo2 = true;
+                    }
+                }
+            }
+        }
+
+    }
+/*
+    if(fimDeJogo){
+        for(var nX = 0; nX<novaPeca.length;nX++){
+            pecaTeste = document.getElementById(novaPeca[nY]);
+            if(pecaTeste != null){
+                var status = pecaTeste.getAttribute("status");
+                if(status == "parado") {
+                    pintarQuadrado(pecaTeste,peca.cor);
+                } 
+                
+            }
+
+        }
+    }*/
+
+
+   
+    
+}
+/*
+function pintarPeca(novaPeca){
+    var quadradoTabuleiro;
+
+    for(var nX = 0;nX<novaPeca.length;nX++ ){
+        quadradoTabuleiro = document.getElementById(novaPeca[nX]);
+
+        if(quadradoTabuleiro != null){
+
+            var corFundo = window.getComputedStyle(quadradoTabuleiro);
+            var status = quadradoTabuleiro.getAttribute("status");
+            if((corFundo.backgroundColor=="rgb(255, 255, 255)" && status != "parado" )){
+               
+                quadradoTabuleiro.style.backgroundColor = corFundo;
+                quadradoTabuleiro.setAttribute('status','parado');
+            }
+        }
+    }
+ 
+}
+*/
 function girarPeca(statusNovo,statusAntigo){
 
     peca.setStatus(statusAntigo)
@@ -136,14 +353,23 @@ function girarPeca(statusNovo,statusAntigo){
     var novaPeca = []
     var colisao
     if(testeGirar > 1){
-        pecaAtual = mapearPeca(peca,peca.linha+1,peca.coluna)
+        if(modoInvertido){
+            pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
+        }else{
+            pecaAtual = mapearPeca(peca,peca.linha+1,peca.coluna)
+        }
     }else{
         pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
     }
    
     peca.setStatus(statusNovo)
 
-    novaPeca = mapearNovaPeca(peca,peca.linha,peca.coluna)
+    if(modoInvertido){
+        novaPeca = mapearNovaPeca(peca,peca.linha-1,peca.coluna)
+    }else{
+        novaPeca = mapearNovaPeca(peca,peca.linha,peca.coluna)
+    }
+   
 
     colisao = colisaoBaixo(novaPeca,"GIRAR")
 
@@ -225,8 +451,12 @@ function movimentarEsquerda(colunaAntiga,novaColuna){
     peca.setColuna(colunaAntiga)
 
     if(testeGirar > 0){
-
-        pecaAtual = mapearPeca(peca,peca.linha + 1,peca.coluna)
+        if(modoInvertido){
+            pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
+        }else{
+            pecaAtual = mapearPeca(peca,peca.linha + 1,peca.coluna)
+        }
+        
     
     }else{
         pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
@@ -237,7 +467,12 @@ function movimentarEsquerda(colunaAntiga,novaColuna){
     verificadorVazio = verificaColunaVazia(novaColuna)
     
     if(testeGirar > 0){
-        novaPeca = mapearNovaPeca(peca,peca.linha,peca.coluna)
+        if(modoInvertido){
+            novaPeca = mapearNovaPeca(peca,peca.linha-1,peca.coluna)
+        }else{
+            novaPeca = mapearNovaPeca(peca,peca.linha,peca.coluna)
+        }
+        
     }else{
         novaPeca = mapearNovaPeca(peca,peca.linha-1,peca.coluna)
     }
@@ -270,8 +505,12 @@ function movimentarDireita(colunaAntiga,novaColuna){
 
     if(testeGirar > 0){
 
-        pecaAtual = mapearPeca(peca,peca.linha + 1,peca.coluna)
-    
+        if(modoInvertido){
+            pecaAtual = mapearPeca(peca,peca.linha ,peca.coluna)
+        }else{
+            pecaAtual = mapearPeca(peca,peca.linha + 1,peca.coluna)
+        }
+        
     }else{
         pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
     }
@@ -281,7 +520,13 @@ function movimentarDireita(colunaAntiga,novaColuna){
     verificadorVazio = verificaColunaVazia(novaColuna)
     
     if(testeGirar > 0){
-        novaPeca = mapearNovaPeca(peca,peca.linha,peca.coluna)
+
+        if(modoInvertido){
+            novaPeca = mapearNovaPeca(peca,peca.linha -1,peca.coluna)
+        }else{
+            novaPeca = mapearNovaPeca(peca,peca.linha,peca.coluna)
+        }
+  
     }else{
         novaPeca = mapearNovaPeca(peca,peca.linha-1,peca.coluna)
     }
@@ -350,7 +595,7 @@ function mudaStatusParado(pecaParada){
         }
     }
 
-    retirarLinhas()
+    retirarLinhas(pecaParada)
     
 }
 
@@ -428,14 +673,16 @@ function retirarPeca(pecaRetirada){
     for(var nX = 0; nX<pecaRetirada.length;nX++){
 
         pecaUnica = document.getElementById(pecaRetirada[nX]);
-        var teste = pecaUnica.getAttribute("status")
-        if(teste != "parado"){
-            if(pecaUnica != null){
+        if(pecaUnica != null){
+
+            var teste = pecaUnica.getAttribute("status")
+            if(teste != "parado"){   
                 var cor = "white"
                 pecaUnica.style.backgroundColor = cor;
                 pecaUnica.removeAttribute("status")
-            }
-        }    
+        
+            }   
+        }
     }
     
 }
@@ -550,7 +797,7 @@ function colisaoBordaDireita(novaPeca){
 
 }
 
-function retirarLinhas(){
+function retirarLinhas(pecaParada){
 
     var linhasRetiradas = []; 
     var quadradoTabuleiro;
@@ -577,7 +824,41 @@ function retirarLinhas(){
     }
 
     if(linhasRetiradas.length > 0){
+        
         console.log("Linha completa")
+        var pontos
+        var linhasTiradas
+        var nivelJogo
+        var nivelAntigo=nivel;
+        
+        pontos = document.getElementById("pontuacao")
+
+        pontuacao = parseInt(pontuacao)  
+        
+        pontuacao = pontuacao + ((linhasRetiradas.length * 10) * linhasRetiradas.length)
+
+        pontos.innerHTML = pontuacao;
+
+        linhasTiradas = document.getElementById("linhas_eliminadas")
+
+        linhasEliminadas = linhasEliminadas + linhasRetiradas.length
+
+        linhasTiradas.innerHTML = linhasEliminadas;
+        
+        nivelJogo = document.getElementById("nivel_dificuldade")
+
+        nivel = Math.trunc(linhasEliminadas/5);
+
+        nivelJogo.innerHTML = nivel;
+
+        if(nivel > nivelAntigo){
+            velocidade = velocidade - 25;
+            if(velocidade < 50){
+                velocidade = 50;
+            }
+            setInterval(descidaAutomatica, velocidade)
+        }
+
         console.log("Linhas preenchidas " + linhasRetiradas.length)
         var quadrado;
 
@@ -592,6 +873,21 @@ function retirarLinhas(){
         }
 
         restaurarTabuleiro(linhasRetiradas)
+        
+        if(peca.cor == "orange"){
+            if(modoInvertido){
+                modoInvertido = false;
+                linhaAtual = qtdLinhas;
+            }else{
+                modoInvertido = true; 
+                linhaAtual = - 1;
+            }
+            
+            inverterTabuleiro();
+            //setTimeout(function(){ alert("Mundao girou " ); }, 50)
+            retirarQuadrado(pecaParada)
+            
+        }
     }
 }
 
@@ -605,19 +901,82 @@ function retirarQuadrado(quadrado){
 }
 
 function restaurarTabuleiro(linhasRetiradas){
+    
+    if(modoInvertido){
+        restTabInvertido(linhasRetiradas);
+        
+    }else{
+            
+        var inicioLinha;
+        var dadosLinha = []
+        var dadosQuadrado = []
+        var corQuadrado;
+        var indiceLinha = 1;
+        var linhasAbaixo = 1;
+        var linhasAcima = 1;
+        inicioLinha = linhasRetiradas[linhasRetiradas.length-1] - 1
 
-    var inicioLinha = linhasRetiradas[linhasRetiradas.length-1] - 1
+
+
+        for(var j = inicioLinha;j>0;j--){
+            if(linhasRetiradas[indiceLinha] == j){
+                
+                if(linhasRetiradas[indiceLinha] == (linhasRetiradas[indiceLinha-1] - 1 )){
+                    linhasAbaixo = linhasAbaixo + 1  
+                }
+                if(linhasRetiradas[indiceLinha] == (linhasRetiradas[indiceLinha-1] + 1 )){
+                    linhasAcima = linhasAcima + 1  
+                }
+                indiceLinha = indiceLinha + 1
+                
+            }else{
+                for(var nY = 0;nY<qtdColunas;nY++){
+
+                    quadradoTabuleiro = document.getElementById('linha' + j.toString() + ' coluna' + nY.toString());
+                    statusQuadrado = quadradoTabuleiro.getAttribute('status')
+                    if(statusQuadrado == "parado"){
+                        corQuadrado = quadradoTabuleiro.style.backgroundColor
+                        dadosQuadrado.push(corQuadrado,nY.toString())
+        
+                        dadosLinha.push(dadosQuadrado)
+
+                        dadosQuadrado = []
+                        retirarQuadrado(quadradoTabuleiro)
+                    }
+        
+                }
+                linhasAbaixo = verificarColunasAbaixo(j,linhasRetiradas)
+                if(dadosLinha.length>0){
+                 
+                    pintarAbaixo(j,linhasAbaixo,dadosLinha)
+                   
+                    
+                }
+                dadosLinha = []
+                linhasAbaixo = 1;
+            }    
+
+        }
+
+}
+
+function restTabInvertido(linhasRetiradas){
+    
+    var inicioLinha;
     var dadosLinha = []
     var dadosQuadrado = []
     var corQuadrado;
     var indiceLinha = 1;
     var linhasAbaixo = 1;
+    var linhasAcima = 1;
 
-    for(var j = inicioLinha;j>0;j--){
+    inicioLinha = linhasRetiradas[0] + 1  
+
+    for(var j = inicioLinha;j<qtdLinhas-1 ;j++){
         if(linhasRetiradas[indiceLinha] == j){
-            
-            if(linhasRetiradas[indiceLinha] == (linhasRetiradas[indiceLinha-1] - 1 )){
-                linhasAbaixo = linhasAbaixo + 1  
+
+            if(linhasRetiradas[indiceLinha] == (linhasRetiradas[indiceLinha-1] + 1 )){
+                linhasAcima = linhasAcima + 1  
             }
             indiceLinha = indiceLinha + 1
             
@@ -637,17 +996,22 @@ function restaurarTabuleiro(linhasRetiradas){
                 }
     
             }
-            linhasAbaixo = verificarColunasAbaixo(j,linhasRetiradas)
+            linhasAcima = verificarColunasAcima(j,linhasRetiradas)
+            
             if(dadosLinha.length>0){
-                pintarAbaixo(j,linhasAbaixo,dadosLinha)
+
+                pintarAcima(j,linhasAcima,dadosLinha)
+               
             }
             dadosLinha = []
-            linhasAbaixo = 1;
+            linhasAcima = 1;
         }    
 
     }
 
 }
+
+
 
 function verificarColunasAbaixo(j,linhasRetiradas){
 
@@ -663,8 +1027,32 @@ function verificarColunasAbaixo(j,linhasRetiradas){
 
 }
 
+function verificarColunasAcima(j,linhasRetiradas){
+    var cont = 0;
 
+    for(var aux=0;aux<linhasRetiradas.length;aux++){
+        if(j>linhasRetiradas[aux]){
+            cont = cont + 1
+        }
+    }
 
+    return cont
+
+}
+
+function pintarAcima(linhaAtual,linhaAcima,dadosLinha){
+
+    var pintarLinha = linhaAtual - linhaAcima
+
+    for(var nY = 0;nY<dadosLinha.length;nY++){
+
+        quadradoTabuleiro = document.getElementById('linha' + pintarLinha + ' coluna' + dadosLinha[nY][1]);
+        pintarQuadrado(quadradoTabuleiro,dadosLinha[nY][0])
+    }
+
+    }
+
+}
 
 function pintarAbaixo(linhaAtual,linhasAbaixo,dadosLinha){
 
@@ -683,4 +1071,64 @@ function pintarQuadrado(quadradoTabuleiro,cor){
     quadradoTabuleiro.style.backgroundColor = cor;
     quadradoTabuleiro.setAttribute('status','parado');
 
+}
+
+function inverterTabuleiro(){
+
+    var tabuleiroNormal =[];
+    var dadosLinha = [];
+    var dadosQuadrado = [];
+    var dadosTabuleiro = [];
+    var quadradoTabuleiro;
+    var statusQuadrado;
+
+    for(var nX = 0; nX<qtdLinhas;nX++){
+        
+        for(var nY = 0; nY<qtdColunas;nY++){
+
+            quadradoTabuleiro = document.getElementById('linha' + nX.toString() + ' coluna' + nY.toString());
+            statusQuadrado = quadradoTabuleiro.getAttribute('status')
+            if(statusQuadrado == "parado"){
+                corQuadrado = quadradoTabuleiro.style.backgroundColor
+                dadosQuadrado.push(corQuadrado,nY.toString(),nX.toString())
+
+                dadosLinha.push(dadosQuadrado)
+                dadosQuadrado = []
+                retirarQuadrado(quadradoTabuleiro)
+            }
+    
+        }
+        if(dadosLinha.length > 0){
+            dadosTabuleiro.push(dadosLinha);
+        }
+        
+        dadosLinha = []
+    
+    }
+
+    inverterLinhas(dadosTabuleiro);
+
+}
+
+function  inverterLinhas(dadosTabuleiro){
+    
+    var quadradoTabuleiro;
+
+    for(nI = 0;nI < dadosTabuleiro.length;nI++){
+
+        for(nK = 0;nK < dadosTabuleiro[nI].length;nK++ ){
+
+            var linha = parseInt(dadosTabuleiro[nI][nK][2]);
+            linha = (linha - (qtdLinhas-1)) * -1  ;
+            var coluna = parseInt(dadosTabuleiro[nI][nK][1]);
+
+            var cor = dadosTabuleiro[nI][nK][0];
+
+            quadradoTabuleiro = document.getElementById('linha' + linha + ' coluna' + coluna);
+            pintarQuadrado(quadradoTabuleiro,cor)
+
+        }
+
+
+    } 
 }
