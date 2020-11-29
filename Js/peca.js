@@ -3,7 +3,7 @@ class Peca {
         this.id = id; 
         this.cor = cor;
         this.status = status;
-        this.coluna = 3;
+        this.coluna = (qtdColunas /2) -2;
         this.linha = 0;
       }
 

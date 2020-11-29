@@ -26,6 +26,17 @@ function criaTabuleiro(colunas,linhas){
         for(let x=0;x<colunas;x++){
             td = document.createElement('td');
             td.setAttribute('id', 'linha' + i.toString() + ' coluna' + x.toString()  );
+            var px = 154/qtdLinhas;
+            var width = 100;
+
+          if(qtdLinhas == 20){
+                px = 10;
+                width = 0;
+            }
+
+            td.style.padding = px + "px";
+            td.style.width = width + "px";
+
             //td.setAttribute('onkeypress',"testeAndar()")
             table.appendChild(td);           
             //divColuna = document.createElement('div');
@@ -64,9 +75,9 @@ var teclaBaixo = 40
 
 if (evt.keyCode == teclaCima) {
     if(modoInvertido){
-        manual = true;
+        manualSubida = true;
         subidaAutomatica()
-        manual = false;
+        manualSubida = false;
     }else{
         peca.girarEsquerda();
     }
@@ -95,16 +106,19 @@ console.log("chave pressionada" +evt.keyCode)
 
 function descidaAutomatica(){
 
-   
+    
     if(modoInvertido){
-        if(!finaldeJogo1 && !finaldeJogo2){
-            subidaAutomatica();
-        }else{
-            if(!fimInvertido){
-                setTimeout(function(){ alert("Fim de jogo " ); }, 50)
-                fimInvertido = true;
+        if(!manual){
+            if(!finaldeJogo1 && !finaldeJogo2){
+                subidaAutomatica();
+            }else{
+                if(!fimInvertido){
+                    setTimeout(function(){ alert("Fim de jogo " ); }, 50)
+                    fimInvertido = true;
+                }
             }
         }
+        
     }else{
         if(!fimDeJogo && !finaldeJogo2){
 
@@ -175,7 +189,7 @@ function subidaAutomatica(){
 
     if(!finaldeJogo1){
 
-        if(!manual){
+        if(!manualSubida){
             tempo = document.getElementById("tempo")
        
             tempo.innerHTML =  parseInt(segundos)
@@ -268,7 +282,6 @@ function colisaoCima(proximaPeca,statsPeca){
 
 function verificaFimDeJogo(novaPeca){
 
-    
     var pecaTeste;
     var ultimaColuna = "coluna" + qtdColunas
     var testeColisao = false
@@ -296,6 +309,9 @@ function verificaFimDeJogo(novaPeca){
                     testeFimJogo = true;
                     pintarQuadrado(pecaTeste,peca.cor)
                     fimDeJogo = true; 
+                    const audio=document.querySelector('.Galvao');
+                    audio.play();
+
                     if(modoInvertido){
                         //pintarPeca(novaPeca);
                         finaldeJogo2 = true;
@@ -830,13 +846,16 @@ function retirarLinhas(pecaParada){
         var linhasTiradas
         var nivelJogo
         var nivelAntigo=nivel;
+
+        const audioMoeda =document.querySelector('.Moeda');
+        audioMoeda.play();
         
         pontos = document.getElementById("pontuacao")
 
         pontuacao = parseInt(pontuacao)  
         
         pontuacao = pontuacao + ((linhasRetiradas.length * 10) * linhasRetiradas.length)
-
+        pontosVelocidade = pontosVelocidade + ((linhasRetiradas.length * 10) * linhasRetiradas.length);
         pontos.innerHTML = pontuacao;
 
         linhasTiradas = document.getElementById("linhas_eliminadas")
@@ -851,11 +870,12 @@ function retirarLinhas(pecaParada){
 
         nivelJogo.innerHTML = nivel;
 
-        if(nivel > nivelAntigo){
+        if(pontosVelocidade >= 300){
             velocidade = velocidade - 25;
             if(velocidade < 50){
                 velocidade = 50;
             }
+            pontosVelocidade = 0;
             setInterval(descidaAutomatica, velocidade)
         }
 
@@ -894,9 +914,12 @@ function retirarLinhas(pecaParada){
 function retirarQuadrado(quadrado){
 
     if(quadrado != null){
-        var cor = "white"
-        quadrado.style.backgroundColor = cor;
-        quadrado.removeAttribute("status")
+     
+        if(quadrado.style != undefined){
+            quadrado.style.backgroundColor = "white";
+            quadrado.removeAttribute("status")
+        }
+ 
     }
 }
 

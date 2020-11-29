@@ -6,6 +6,17 @@ var verificaGirada = false
 var lPrimeiraVez = true
 var testeExtremidade = 0
 var modoInvertido = false;
+let peca;
+
+const conjuntoPecas = [
+    [I,'red',0],
+    [J,'green',0],
+    [L,'yellow',0],
+    [O,'blue',0],
+    [T,'magenta',0],
+    [W,'cyan',0],
+    [E,'orange',0],
+];
 
 var finaldeJogo1 = false;
 var finaldeJogo2 = false;
@@ -22,27 +33,25 @@ var qtdLinhas;
 var qtdColunas;
 var segundos = 0;
 var velocidade = 500;
+var pontosVelocidade = 0;
+
+var qtdLinhas = 20
+var qtdColunas = 10 
 
 var manual = false;
-//comecarJogo();
-qtdLinhas = 20
-qtdColunas = 10
-/*
-qtdLinhas = 44
-qtdColunas = 20*/
+var manualSubida = false;
 
-criaTabuleiro(qtdColunas,qtdLinhas)
+function gameStart(qtdCol,qtdLin) {
 
-const conjuntoPecas = [
-    [I,'red',0],
-    [J,'green',0],
-    [L,'yellow',0],
-    [O,'blue',0],
-    [T,'purple',0],
-    [W,'cyan',0],
-    [E,'orange',0],
-];
+qtdLinhas = qtdLin
+qtdColunas = qtdCol
 
-let peca = pecaAleatoria();
+    criaTabuleiro(qtdColunas,qtdLinhas)
+    
+    peca = pecaAleatoria();
 
+    descidaAutomatica();
+
+
+}
 setInterval(descidaAutomatica, velocidade)

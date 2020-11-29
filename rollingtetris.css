@@ -24,7 +24,7 @@ nav > ul {
 nav > ul > li {
     display:inline-block;
     list-style: none;
-    margin:0 5px 0 5px;
+    margin:0 5px 0 100px;
     padding: 20px;
   
 }
@@ -41,7 +41,7 @@ body{
 table,
 th,
 td {
-    border: 2px solid white;
+    border: 1px solid black;
     border-radius: 10px;
     vertical-align: middle;
 
@@ -54,6 +54,7 @@ td {
     font-weight: bolder;
     background-color: white;
     border-radius: 6px;
+
 }
 
 .corpo{
@@ -61,8 +62,9 @@ td {
     justify-content: center;
     align-items: center;
     padding-left: 10px;
-    background-color: lightseagreen;
+    background-color:#b864c0;
 }
+
 .tabelaLocal{
     width: 30%;
     height: 150px; 
@@ -80,14 +82,40 @@ td {
     display:flex;
 }
 
-table, th, td {
-    border: 1px solid black;
-  }
-  
-th, td {
-    padding: 10px;
+.corpo button:hover, .MusicaTetris button:hover{
+    background-color: #2ecc71;
 }
 
+.corpo button{
+    border:0;
+    background: none;
+    display: block;
+    margin: 10px;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 40px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.20s;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-
+.MusicaTetris button{
+    border:0;
+    background: none;
+    margin: 10px;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 20px;
+    outline: none;
+    color: white;
+    border-radius: 15px;
+    transition: 0.20s;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+}
 

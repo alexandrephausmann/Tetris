@@ -9,9 +9,19 @@
 
     </head>
     <body>
+        <audio src="som/Tetris.mp3" loop id="Tetris"  class="Tetris"></audio>
+        <audio src="som/Moeda.mp3" class="Moeda"></audio>
+        <audio src="som/Galvao.mpeg" class="Galvao"></audio>
+
         <div class = 'pagina'>
             <header> 
                 <nav>
+                    <div class="MusicaTetris"> 
+                        <button onclick="document.getElementById('Tetris').play()">Play</button> 
+                        <button onclick="document.getElementById('Tetris').pause()">Pause</button> 
+                        <button onclick="document.getElementById('Tetris').volume += 0.1">Vol +</button> 
+                        <button onclick="document.getElementById('Tetris').volume -= 0.1">Vol -</button> 
+                      </div>
                     <ul>
                         <li><a href="rankingGlobal.html" style="color: white;">Ranking Global</a></li>
                         <li><a href="editarCadastro.html" style="color: white;">Editar Informaçao Pessoal</a></li>
@@ -19,7 +29,7 @@
                     </ul>
                 </nav>
             </header>
-            
+
             <div class = "principal">
 
                 <div class = "tabelaAtual">
@@ -42,6 +52,9 @@
                 </div>
 
                 <div class = "corpo"> 
+                    <button onclick="gameStart(10,20)">Tabuleiro 10x20</button>
+                    <button onclick="gameStart(22,44)">Tabuleiro 22x44</button>
+
                   
                 </div>
 
@@ -90,10 +103,10 @@
             
             </div>
 
-            <script type="text/javascript" src="js/formatoPeca.js"></script>
-            <script type="text/javascript" src="js/peca.js"></script>            
-            <script type="text/javascript" src="js/funcoes.js"></script>
-            <script type="text/javascript" src="js/jogo.js"></script>
+            <script src="js/formatoPeca.js"></script>
+            <script src="js/peca.js"></script>            
+            <script src="js/funcoes.js"></script>
+            <script src="js/jogo.js"></script>
         </div>
     </body>
 
