@@ -50,25 +50,16 @@ class Peca {
         }
         var statusAntigo = parseInt(this.status)
 
-        console.log("status " + status)
-        console.log("qntd status " + peca.id.length)
-
         if(statusNumerico == peca.id.length ) {
-          console.log("entrou no if")
           statusNumerico = statusNumerico % peca.id.length;
         }
         
         girar = true;
         this.status = parseInt(statusNumerico);
       
-        testeGirar = testeGirar + 1
-        //descerPeca("Girando")
-        
+        quantidadeGiros = quantidadeGiros + 1
+      
         girarPeca(statusNumerico,statusAntigo)
-
-        if(verificaGirada){
-          this.status = statusAntigo;  
-        }
 
       }
 
@@ -78,7 +69,6 @@ class Peca {
         var novaColuna = parseInt(this.coluna)
         novaColuna = novaColuna - 1 
         
-        this.coluna = novaColuna;
         movimentarEsquerda(colunaAntiga,novaColuna)
 
       }
@@ -88,9 +78,8 @@ class Peca {
         var colunaAntiga = parseInt(this.coluna)
         var novaColuna = parseInt(this.coluna)
         novaColuna = novaColuna + 1 
-        this.coluna = novaColuna;
+        
         movimentarDireita(colunaAntiga,novaColuna)
-        verificaGirada = false;
       }
 
 }

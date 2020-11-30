@@ -2,7 +2,6 @@ var fimDeJogo = false
 var girar = false
 var statusOriginal = 1
 var verificadorNulo = false
-var verificaGirada = false
 var lPrimeiraVez = true
 var testeExtremidade = 0
 var modoInvertido = false;
@@ -23,7 +22,7 @@ var finaldeJogo2 = false;
 var fimNormal = false;
 var fimInvertido = false;
 
-var testeGirar = 0
+var quantidadeGiros = 0
 var testeEsquerda = 0
 var pontuacao = 0;
 var linhasEliminadas = 0;
@@ -51,7 +50,6 @@ qtdColunas = qtdCol
     peca = pecaAleatoria();
 
     descidaAutomatica();
-
 
 }
 setInterval(descidaAutomatica, velocidade)

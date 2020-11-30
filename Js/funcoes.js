@@ -8,20 +8,14 @@ function criaTabuleiro(colunas,linhas){
     console.log("teste")
     let tr = "";
     let td = "";
-  /*  var divLinha = ""; 
-    var divColuna = ""; 
-    var divJogo = "";*/
     var table = document.createElement('table');
     var x = document.getElementsByClassName("corpo");
     x[0].innerHTML = "";
 
     for(let i=0;i<linhas;i++){
 
-       // divLinha = document.createElement('div');
-        //divJogo.appendChild(divLinha);
         tr = document.createElement('tr');
         tr.setAttribute('id', 'linha' + i.toString() );
-       // tr.setAttribute('onkeypress',"testeAndar()")
         table.appendChild(tr);
         for(let x=0;x<colunas;x++){
             td = document.createElement('td');
@@ -36,19 +30,12 @@ function criaTabuleiro(colunas,linhas){
 
             td.style.padding = px + "px";
             td.style.width = width + "px";
-
-            //td.setAttribute('onkeypress',"testeAndar()")
             table.appendChild(td);           
-            //divColuna = document.createElement('div');
-           // divLinha.appendChild(divColuna);
+
         }
     }
-   // document.body.appendChild(table);
 
     x[0].appendChild(table);
-
-    //document.getElementByClassName("corpo").appendChild(divJogo);
-
 }
 
 function pecaAleatoria(){
@@ -60,7 +47,6 @@ function pecaAleatoria(){
         conjuntoPecas[pecaAleatoria][2],
     );  
 }
-
 
 //Eventos de tecla para método onKD
 
@@ -106,19 +92,17 @@ console.log("chave pressionada" +evt.keyCode)
 
 function descidaAutomatica(){
 
-    
     if(modoInvertido){
-        if(!manual){
-            if(!finaldeJogo1 && !finaldeJogo2){
-                subidaAutomatica();
-            }else{
-                if(!fimInvertido){
-                    setTimeout(function(){ alert("Fim de jogo " ); }, 50)
-                    fimInvertido = true;
-                }
+       
+        if(!finaldeJogo1 && !finaldeJogo2){
+            subidaAutomatica();
+        }else{
+            if(!fimInvertido){
+                setTimeout(function(){ alert("Fim de jogo " ); }, 50)
+                fimInvertido = true;
             }
         }
-        
+           
     }else{
         if(!fimDeJogo && !finaldeJogo2){
 
@@ -139,14 +123,7 @@ function descidaAutomatica(){
             var pecaAtual = []
             var novaPeca = []
             var colisao
-        /*
-            if(testeGirar > 1){
-                pecaAtual = mapearPeca(peca,peca.linha+1,peca.coluna)
-            }else{
-                pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
-            }
-            */
-        
+
             pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
         
             novaPeca = mapearNovaPeca(peca,peca.linha,peca.coluna)
@@ -164,15 +141,9 @@ function descidaAutomatica(){
             
             peca.addLinha();
             linhaAtual +=1
-            testeGirar = 0
+            quantidadeGiros = 0
             colidiuEsquerda = false
             testeGirandoAndando = 0
-            /*testeEsquerda = 0
-            testeExtremidade = 0
-            }
-        
-            retornoColisao = false
-            colidiuEsquerda = false*/
         }else{
             if(!fimNormal){
                 finaldeJogo1 = true;
@@ -224,15 +195,9 @@ function subidaAutomatica(){
         
         peca.removeLinha();
         linhaAtual -=1
-        testeGirar = 0
+        quantidadeGiros = 0
         colidiuEsquerda = false
         testeGirandoAndando = 0
-        /*testeEsquerda = 0
-        testeExtremidade = 0
-        }
-    
-        retornoColisao = false
-        colidiuEsquerda = false*/
     }
 
 }
@@ -321,46 +286,9 @@ function verificaFimDeJogo(novaPeca){
         }
 
     }
-/*
-    if(fimDeJogo){
-        for(var nX = 0; nX<novaPeca.length;nX++){
-            pecaTeste = document.getElementById(novaPeca[nY]);
-            if(pecaTeste != null){
-                var status = pecaTeste.getAttribute("status");
-                if(status == "parado") {
-                    pintarQuadrado(pecaTeste,peca.cor);
-                } 
-                
-            }
 
-        }
-    }*/
-
-
-   
-    
 }
-/*
-function pintarPeca(novaPeca){
-    var quadradoTabuleiro;
 
-    for(var nX = 0;nX<novaPeca.length;nX++ ){
-        quadradoTabuleiro = document.getElementById(novaPeca[nX]);
-
-        if(quadradoTabuleiro != null){
-
-            var corFundo = window.getComputedStyle(quadradoTabuleiro);
-            var status = quadradoTabuleiro.getAttribute("status");
-            if((corFundo.backgroundColor=="rgb(255, 255, 255)" && status != "parado" )){
-               
-                quadradoTabuleiro.style.backgroundColor = corFundo;
-                quadradoTabuleiro.setAttribute('status','parado');
-            }
-        }
-    }
- 
-}
-*/
 function girarPeca(statusNovo,statusAntigo){
 
     peca.setStatus(statusAntigo)
@@ -368,7 +296,7 @@ function girarPeca(statusNovo,statusAntigo){
     var pecaAtual = []
     var novaPeca = []
     var colisao
-    if(testeGirar > 1){
+    if(quantidadeGiros > 1){
         if(modoInvertido){
             pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
         }else{
@@ -386,7 +314,6 @@ function girarPeca(statusNovo,statusAntigo){
         novaPeca = mapearNovaPeca(peca,peca.linha,peca.coluna)
     }
    
-
     colisao = colisaoBaixo(novaPeca,"GIRAR")
 
     if(!colisao){
@@ -394,16 +321,7 @@ function girarPeca(statusNovo,statusAntigo){
         colocarPeca(novaPeca)
     }else{
         if(!indoProAlem){
-            /*var colidiuBaixo
-            //colisao ao girar para a peça
-            colidiuBaixo = verificarColisaoBaixo(pecaAtual)
-
-            if(colidiuBaixo){
-                mudaStatusParado(pecaAtual)
-            }else{
-                peca.setStatus(statusAntigo)
-            }
-*/      
+           
         mudaStatusParado(pecaAtual)
             
         }else{
@@ -413,50 +331,12 @@ function girarPeca(statusNovo,statusAntigo){
     }
 
 }
-/* colisao ao girar para a peça
-function verificarColisaoBaixo(pecaAtual){
-    
-    var proximaLinha;
-    var proximaColuna;
-    var linhaColuna;
-    var linhaAgora;
-    var colunaAgora;
-    var proximoQuadrado;
-    var retornoColidir = false
-
-    for(var teste = 0;teste<pecaAtual.length;teste++){
-
-        linhaColuna = pecaAtual[teste].split(" ")
-        linhaAgora = parseInt(linhaColuna[0].substring(5))
-        colunaAgora = parseInt(linhaColuna[1].substring(6))
-        proximaLinha = linhaAgora + 1
-        proximaColuna = colunaAgora 
-        proximoQuadrado = "linha" + proximaLinha + " coluna" + proximaColuna
-        
-        if(pecaAtual.indexOf(proximoQuadrado) == -1){
-            var quadradoProximo = document.getElementById(proximoQuadrado); 
-            var corFundo = window.getComputedStyle(quadradoProximo);
-            var status = quadradoProximo.getAttribute("status");
- 
-            if((corFundo.backgroundColor!="rgb(255, 255, 255)" && status == "parado" ) || (corFundo.backgroundColor== null)){
-                
-                retornoColidir = true;
-                
-            }
-        
-        }
-    }
-
-    return retornoColidir;
-
-}*/
 
 function movimentarEsquerda(colunaAntiga,novaColuna){
 
     if(linhaAtual >= qtdLinhas){
         peca = pecaAleatoria();
         linhaAtual = 0;
-    
     }
     
     var pecaAtual = []
@@ -464,9 +344,7 @@ function movimentarEsquerda(colunaAntiga,novaColuna){
     var colisao
     var verificadorVazio = false;
 
-    peca.setColuna(colunaAntiga)
-
-    if(testeGirar > 0){
+    if(quantidadeGiros > 0){
         if(modoInvertido){
             pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
         }else{
@@ -482,7 +360,7 @@ function movimentarEsquerda(colunaAntiga,novaColuna){
     
     verificadorVazio = verificaColunaVazia(novaColuna)
     
-    if(testeGirar > 0){
+    if(quantidadeGiros > 0){
         if(modoInvertido){
             novaPeca = mapearNovaPeca(peca,peca.linha-1,peca.coluna)
         }else{
@@ -511,15 +389,13 @@ function movimentarDireita(colunaAntiga,novaColuna){
         linhaAtual = 0;
     
     }
-    
+
     var pecaAtual = []
     var novaPeca = []
     var colisao
     var verificadorVazio = false;
 
-    peca.setColuna(colunaAntiga)
-
-    if(testeGirar > 0){
+    if(quantidadeGiros > 0){
 
         if(modoInvertido){
             pecaAtual = mapearPeca(peca,peca.linha ,peca.coluna)
@@ -535,7 +411,7 @@ function movimentarDireita(colunaAntiga,novaColuna){
     
     verificadorVazio = verificaColunaVazia(novaColuna)
     
-    if(testeGirar > 0){
+    if(quantidadeGiros > 0){
 
         if(modoInvertido){
             novaPeca = mapearNovaPeca(peca,peca.linha -1,peca.coluna)
@@ -616,9 +492,6 @@ function mudaStatusParado(pecaParada){
 }
 
 function mapearPeca(peca,linhainicial,colunainicial){
-    
-    //console.log("Peça primaria:Linha inicial: " + linhainicial)
-    //console.log("Peça primaria:Coluna inicial: " + colunainicial)
 
     linhainicial = linhainicial - 1
     var colAux
@@ -632,9 +505,7 @@ function mapearPeca(peca,linhainicial,colunainicial){
             if(linhainicial >= 0){
 
                 if(peca.id[peca.status][i][k] == 1){  
-
                     MapPeca.push("linha"+linhainicial + " coluna" + colunainicial); 
-      //              console.log("Peça primaria: linha"+linhainicial + " coluna" + colunainicial);  
                 }    
 
             }
@@ -650,16 +521,9 @@ function mapearPeca(peca,linhainicial,colunainicial){
 
 function mapearNovaPeca(peca,linhainicial,colunainicial){
 
-  //  console.log("Peça secundaria:Linha inicial: " + linhainicial)
-  //  console.log("Peça secundaria:Coluna inicial: " + colunainicial)
-
     var colAux
     colAux = colunainicial 
-/* alguma logica pra salvar a peça quando tenta girar na extremidade
-    if(colunainicial < 0){
-        colunainicial = 0
-    }
-*/
+
     var pecaNova = [];
 
     for(var i=0;i < peca.id[peca.status].length;i++){
@@ -669,8 +533,7 @@ function mapearNovaPeca(peca,linhainicial,colunainicial){
             if(peca.id[peca.status][i][k] == 1){              
                 
                 pecaNova.push("linha"+linhainicial + " coluna" + colunainicial);    
-    //            console.log("Peça secundaria: linha"+linhainicial + " coluna" + colunainicial);      
-                
+ 
             }
             colunainicial += 1;           
         }
@@ -713,7 +576,6 @@ function colocarPeca(pecaColocada){
         pecaPosta.style.backgroundColor = peca.cor;
         pecaPosta.setAttribute('status','movimento');
         
-
     }
 
 }
@@ -904,7 +766,6 @@ function retirarLinhas(pecaParada){
             }
             
             inverterTabuleiro();
-            //setTimeout(function(){ alert("Mundao girou " ); }, 50)
             retirarQuadrado(pecaParada)
             
         }
@@ -939,8 +800,6 @@ function restaurarTabuleiro(linhasRetiradas){
         var linhasAcima = 1;
         inicioLinha = linhasRetiradas[linhasRetiradas.length-1] - 1
 
-
-
         for(var j = inicioLinha;j>0;j--){
             if(linhasRetiradas[indiceLinha] == j){
                 
@@ -970,10 +829,9 @@ function restaurarTabuleiro(linhasRetiradas){
                 }
                 linhasAbaixo = verificarColunasAbaixo(j,linhasRetiradas)
                 if(dadosLinha.length>0){
-                 
+               
                     pintarAbaixo(j,linhasAbaixo,dadosLinha)
-                   
-                    
+  
                 }
                 dadosLinha = []
                 linhasAbaixo = 1;
