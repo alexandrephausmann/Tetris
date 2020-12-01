@@ -33,6 +33,7 @@ var qtdColunas;
 var segundos = 0;
 var velocidade = 500;
 var pontosVelocidade = 0;
+var iniciaJogo = false;
 
 var qtdLinhas = 20
 var qtdColunas = 10 
@@ -41,6 +42,8 @@ var manual = false;
 var manualSubida = false;
 
 function gameStart(qtdCol,qtdLin) {
+
+iniciaJogo = true;
 
 qtdLinhas = qtdLin
 qtdColunas = qtdCol

@@ -5,7 +5,6 @@ var indoProAlem
 
 function criaTabuleiro(colunas,linhas){
     
-    console.log("teste")
     let tr = "";
     let td = "";
     var table = document.createElement('table');
@@ -65,7 +64,7 @@ if (evt.keyCode == teclaCima) {
         subidaAutomatica()
         manualSubida = false;
     }else{
-        peca.girarEsquerda();
+        peca.girar();
     }
    
 }else if (evt.keyCode == teclaEsquerda) {
@@ -77,7 +76,7 @@ if (evt.keyCode == teclaCima) {
 }else if (evt.keyCode == teclaBaixo) {
     
     if(modoInvertido){
-        peca.girarEsquerda(); 
+        peca.girar(); 
     }else{
         manual = true;
         descidaAutomatica()
@@ -86,74 +85,72 @@ if (evt.keyCode == teclaCima) {
     
 }
 
-console.log("chave pressionada" +evt.keyCode)
-
 }
 
 function descidaAutomatica(){
-
-    if(modoInvertido){
+    if(iniciaJogo){
+        if(modoInvertido){
        
-        if(!finaldeJogo1 && !finaldeJogo2){
-            subidaAutomatica();
-        }else{
-            if(!fimInvertido){
-                setTimeout(function(){ alert("Fim de jogo " ); }, 50)
-                fimInvertido = true;
-            }
-        }
-           
-    }else{
-        if(!fimDeJogo && !finaldeJogo2){
-
-            if(!manual){
-                tempo = document.getElementById("tempo")
-                
-                tempo.innerHTML = parseInt(segundos);
-
-                segundos = segundos + (velocidade/1000)
-            }
-            
-            if(linhaAtual >= qtdLinhas){
-                peca = pecaAleatoria();
-                linhaAtual = 0;
-            
-            }
-            
-            var pecaAtual = []
-            var novaPeca = []
-            var colisao
-
-            pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
-        
-            novaPeca = mapearNovaPeca(peca,peca.linha,peca.coluna)
-        
-            colisao = colisaoBaixo(novaPeca,"AUTOMATICO")
-        
-            if(!colisao){
-                retirarPeca(pecaAtual)
-                colocarPeca(novaPeca)
+            if(!finaldeJogo1 && !finaldeJogo2){
+                subidaAutomatica();
             }else{
-                mudaStatusParado(pecaAtual)
-                verificaFimDeJogo(novaPeca)
+                if(!fimInvertido){
+                    setTimeout(function(){ alert("Fim de jogo " ); }, 50)
+                    fimInvertido = true;
+                }
             }
-            
-            
-            peca.addLinha();
-            linhaAtual +=1
-            quantidadeGiros = 0
-            colidiuEsquerda = false
-            testeGirandoAndando = 0
+               
         }else{
-            if(!fimNormal){
-                finaldeJogo1 = true;
-                setTimeout(function(){ alert("Fim de jogo " ); }, 50)
-                fimNormal = true;
+            if(!fimDeJogo && !finaldeJogo2){
+    
+                if(!manual){
+                    tempo = document.getElementById("tempo")
+                    
+                    tempo.innerHTML = parseInt(segundos);
+    
+                    segundos = segundos + (velocidade/1000)
+                }
+                
+                if(linhaAtual >= qtdLinhas){
+                    peca = pecaAleatoria();
+                    linhaAtual = 0;
+                
+                }
+                
+                var pecaAtual = []
+                var novaPeca = []
+                var colisao
+    
+                pecaAtual = mapearPeca(peca,peca.linha,peca.coluna)
+            
+                novaPeca = mapearNovaPeca(peca,peca.linha,peca.coluna)
+            
+                colisao = colisaoBaixo(novaPeca,"AUTOMATICO")
+            
+                if(!colisao){
+                    retirarPeca(pecaAtual)
+                    colocarPeca(novaPeca)
+                }else{
+                    mudaStatusParado(pecaAtual)
+                    verificaFimDeJogo(novaPeca)
+                }
+                
+                
+                peca.addLinha();
+                linhaAtual +=1
+                quantidadeGiros = 0
+                colidiuEsquerda = false
+                testeGirandoAndando = 0
+            }else{
+                if(!fimNormal){
+                    finaldeJogo1 = true;
+                    setTimeout(function(){ alert("Fim de jogo " ); }, 50)
+                    fimNormal = true;
+                }
             }
         }
     }
     
-
 }
 
 function subidaAutomatica(){

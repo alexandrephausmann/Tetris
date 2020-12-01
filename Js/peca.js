@@ -37,7 +37,7 @@ class Peca {
         this.coluna = parseInt(this.coluna )- 1
       }
 
-      girarEsquerda(){
+      girar(){
         var status 
         var statusNumerico
 
