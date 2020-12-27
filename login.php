@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -9,21 +13,35 @@
     
     </head>
     <body>
-        <form action="/rollingtetris.html" class="box" method="get">
-			
+        <div id="menu">
+            <ul>
+              <li><a href="cadastro.php">Realizar Cadastro</a></li>
+            </ul>
+        </div>
+
+        <form action="realizarLogin.php" class="box" method="post">
+            
+            <?php
+                if(isset($_SESSION['msg'])){
+                    echo $_SESSION['msg'];
+                    unset($_SESSION['msg']);
+                }
+            ?>
+            
             <div>
 				<label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" />
+                <input type="text" id="usuario" name="usuario"/>
             </div> <br>
 
             <div>
 				<label for="senha">Senha:</label>
-                <input type="password" id="senha" />
+                <input type="password" id="senha" name="senha" />
             </div> <br>
 
             <div>
                 <button type="submit"  value="enviar">Enviar</button>
             </div>
         </form>
+      
     </body>
 </html>

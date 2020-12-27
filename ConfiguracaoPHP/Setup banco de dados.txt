@@ -1,0 +1,13 @@
+Para executar o projeto de forma correta, usamos o banco de dados MySQL que subi pelo XAMPP no link http://localhost/phpmyadmin.
+
+As configurações para a conexão com o banco de dados está no arquivo dbconnect.php no projeto principal.
+
+O usuario eu utilizei o "root" que é o padrao com a senha em branco, porém se quiser mudar com outro usuario pode fazer isso mas 
+tem que alterar essas informações nesse arquivo e o usuário do Banco de dados tem que ter todas as permissões de admin.
+
+Tem que criar pelo phpMyAdmin a tabela "tetris" ou o nome que achar melhor, porém se for alterar precisa alterar também no arquivo dbconnect.php para poder executar corretamente os scripts com as tabelas do sistema.Essa tabela deixei a codificação como utf8_bin porém deve funcionar com outros encodding se precisar.
+
+Após ter configurado esses itens, é so executar o arquivo tabelas.php e depois ja vai estar funcionando toda a parte de PHP do projeto com conexao a MySQL.
+
+
+

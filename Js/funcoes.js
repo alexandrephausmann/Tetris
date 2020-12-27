@@ -95,6 +95,7 @@ function descidaAutomatica(){
                 subidaAutomatica();
             }else{
                 if(!fimInvertido){
+                    gravarRankingPhp();
                     setTimeout(function(){ alert("Fim de jogo " ); }, 50)
                     fimInvertido = true;
                 }
@@ -107,7 +108,9 @@ function descidaAutomatica(){
                     tempo = document.getElementById("tempo")
                     
                     tempo.innerHTML = parseInt(segundos);
-    
+                    
+                    document.getElementById("Subtempo").value = parseInt(segundos)
+
                     segundos = segundos + (velocidade/1000)
                 }
                 
@@ -144,6 +147,7 @@ function descidaAutomatica(){
             }else{
                 if(!fimNormal){
                     finaldeJogo1 = true;
+                    gravarRankingPhp();
                     setTimeout(function(){ alert("Fim de jogo " ); }, 50)
                     fimNormal = true;
                 }
@@ -151,6 +155,13 @@ function descidaAutomatica(){
         }
     }
     
+}
+// Função que faz as requisição Ajax ao arquivo PHP
+function gravarRankingPhp()
+{
+    
+    document.getElementById("formRanking").submit();
+  
 }
 
 function subidaAutomatica(){
@@ -161,6 +172,8 @@ function subidaAutomatica(){
             tempo = document.getElementById("tempo")
        
             tempo.innerHTML =  parseInt(segundos)
+
+            document.getElementById("Subtempo").value = parseInt(segundos)
 
             segundos = segundos + (velocidade/1000)
         }
@@ -712,22 +725,29 @@ function retirarLinhas(pecaParada){
         pontos = document.getElementById("pontuacao")
 
         pontuacao = parseInt(pontuacao)  
+
         
         pontuacao = pontuacao + ((linhasRetiradas.length * 10) * linhasRetiradas.length)
         pontosVelocidade = pontosVelocidade + ((linhasRetiradas.length * 10) * linhasRetiradas.length);
         pontos.innerHTML = pontuacao;
+        
+        document.getElementById("Subpontuacao").value = pontuacao
 
         linhasTiradas = document.getElementById("linhas_eliminadas")
 
         linhasEliminadas = linhasEliminadas + linhasRetiradas.length
 
         linhasTiradas.innerHTML = linhasEliminadas;
+
+        document.getElementById("Sublinhas_eliminadas").value = linhasEliminadas;
         
         nivelJogo = document.getElementById("nivel_dificuldade")
 
         nivel = Math.trunc(linhasEliminadas/5);
 
         nivelJogo.innerHTML = nivel;
+
+        document.getElementById("Subnivel_dificuldade").value = nivel;
 
         if(pontosVelocidade >= 300){
             velocidade = velocidade - 25;

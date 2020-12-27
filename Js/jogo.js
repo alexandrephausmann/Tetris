@@ -35,6 +35,13 @@ var velocidade = 500;
 var pontosVelocidade = 0;
 var iniciaJogo = false;
 
+var inicializadorPadrao = 0;
+
+var elementoLinha;
+var elementoPontuacao;
+var elementoNivel;
+var elementoTempo;
+
 var qtdLinhas = 20
 var qtdColunas = 10 
 
@@ -43,10 +50,22 @@ var manualSubida = false;
 
 function gameStart(qtdCol,qtdLin) {
 
-iniciaJogo = true;
+    iniciaJogo = true;
 
-qtdLinhas = qtdLin
-qtdColunas = qtdCol
+    qtdLinhas = qtdLin
+    qtdColunas = qtdCol
+
+    elementoLinha = document.getElementById("linhas_eliminadas");
+    elementoLinha.innerHTML = inicializadorPadrao;
+
+    elementoPontuacao =  document.getElementById("pontuacao");
+    elementoPontuacao.innerHTML = inicializadorPadrao;
+
+    elementoNivel = document.getElementById("nivel_dificuldade");
+    elementoNivel.innerHTML = inicializadorPadrao;
+
+    elementoTempo = document.getElementById("tempo");
+    elementoTempo.innerHTML = inicializadorPadrao;
 
     criaTabuleiro(qtdColunas,qtdLinhas)
     
