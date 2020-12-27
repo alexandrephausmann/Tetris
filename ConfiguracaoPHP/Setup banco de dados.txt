@@ -9,5 +9,6 @@ Tem que criar pelo phpMyAdmin a tabela "tetris" ou o nome que achar melhor, por�
 
 Após ter configurado esses itens, é so executar o arquivo tabelas.php e depois ja vai estar funcionando toda a parte de PHP do projeto com conexao a MySQL.
 
+IMPORTANTE: Se alterar algum dado no arquivo dbconnect,lembrar de editar nos 2 arquivos que estao no projeto, o da pasta de configuração e no projeto principal
 
 

@@ -156,7 +156,7 @@ function descidaAutomatica(){
     }
     
 }
-// Função que faz as requisição Ajax ao arquivo PHP
+
 function gravarRankingPhp()
 {
     
@@ -740,16 +740,17 @@ function retirarLinhas(pecaParada){
         linhasTiradas.innerHTML = linhasEliminadas;
 
         document.getElementById("Sublinhas_eliminadas").value = linhasEliminadas;
-        
-        nivelJogo = document.getElementById("nivel_dificuldade")
-
-        nivel = Math.trunc(linhasEliminadas/5);
-
-        nivelJogo.innerHTML = nivel;
-
-        document.getElementById("Subnivel_dificuldade").value = nivel;
-
+ 
         if(pontosVelocidade >= 300){
+
+            nivelJogo = document.getElementById("nivel_dificuldade")
+
+            nivel = nivel + 1;
+    
+            nivelJogo.innerHTML = nivel;
+
+            document.getElementById("Subnivel_dificuldade").value = nivel;
+
             velocidade = velocidade - 25;
             if(velocidade < 50){
                 velocidade = 50;

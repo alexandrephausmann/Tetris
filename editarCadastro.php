@@ -7,13 +7,7 @@
         exit;
 	}else{
 		
-		$hostname="localhost";
-		$username="root";
-		$password="";
-		$dbname="tetris";
-
-		$connect = mysqli_connect($hostname,$username, $password);
-		$db = mysqli_select_db ($connect,$dbname);
+		require_once( 'dbconnect.php' );
 
 		$usuarioLogin = $_SESSION['user'] ;
 		$senha = $_SESSION['senha'];
@@ -36,7 +30,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -120,7 +114,7 @@
             </div> <br>
             <div>
 				<label for="senha">Senha:</label>
-                <input type="password" id="senha" name="senha"  />
+                <input type="password" id="senha" name="senha"/>
             </div> <br>
 
             <div>

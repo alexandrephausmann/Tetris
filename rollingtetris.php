@@ -9,7 +9,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,14 +69,15 @@
                 </form>
 
                 <?php
-                        if(isset($_SESSION['tempo']) AND isset($_SESSION['pontuacao'])  AND isset($_SESSION['linhasEliminadas'])  AND isset($_SESSION['nivel']) ){
-                            unset($_SESSION['tempo']);
-                            unset($_SESSION['pontuacao']);
-                            unset($_SESSION['linhasEliminadas']);
-                            unset($_SESSION['nivel']);
+                
+                    if(isset($_SESSION['tempo']) AND isset($_SESSION['pontuacao'])  AND isset($_SESSION['linhasEliminadas'])  AND isset($_SESSION['nivel']) ){
+                        unset($_SESSION['tempo']);
+                        unset($_SESSION['pontuacao']);
+                        unset($_SESSION['linhasEliminadas']);
+                        unset($_SESSION['nivel']);
 
-                        }
-                    ?>
+                    }
+                ?>
 
                 <div class = "corpo"> 
                     <?php
@@ -89,7 +90,6 @@
                     <button onclick="gameStart(10,20)">Tabuleiro 10x20</button>
                     <button onclick="gameStart(22,44)">Tabuleiro 22x44</button>
 
-                  
                 </div>
 
                 <div class = "tabelaLocal">
@@ -101,30 +101,30 @@
                             <th>Tempo de duração da partida</th>
                         </tr>
                         
-                        
-            <?php 
-               
-                require_once( 'dbconnect.php' );
-
-                $usuario = $_SESSION['user'];
-                
-                $queryUsuario = "SELECT * FROM Ranking WHERE nomeUsuario = '$usuario' ORDER BY pontuacao DESC,nivel DESC LIMIT 10";
-
-                $resultUser = mysqli_query($connect,$queryUsuario);
-                
-                while($row_usuario = mysqli_fetch_assoc($resultUser)){
-                    echo "<tr>";
-
-                    echo "<td>" . $row_usuario["nomeUsuario"] . "</td>";
-                    echo "<td>" . $row_usuario["pontuacao"] . "</td>";
-                    echo "<td>" . $row_usuario["nivel"] . "</td>";
-                    echo "<td>" . $row_usuario["tempoPartida"] . "</td>";
-
-                    echo "</tr>";
-                }
-                 ?>
-
+                                
+                    <?php 
                     
+                        require_once( 'dbconnect.php' );
+
+                        $usuario = $_SESSION['user'];
+                        
+                        $queryUsuario = "SELECT * FROM Ranking WHERE nomeUsuario = '$usuario' ORDER BY pontuacao DESC,nivel DESC LIMIT 10";
+
+                        $resultUser = mysqli_query($connect,$queryUsuario);
+                        
+                        while($row_usuario = mysqli_fetch_assoc($resultUser)){
+                            echo "<tr>";
+
+                            echo "<td>" . $row_usuario["nomeUsuario"] . "</td>";
+                            echo "<td>" . $row_usuario["pontuacao"] . "</td>";
+                            echo "<td>" . $row_usuario["nivel"] . "</td>";
+                            echo "<td>" . $row_usuario["tempoPartida"] . "</td>";
+
+                            echo "</tr>";
+                        }
+                    ?>
+
+                            
                     </table>
                 
                 </div>
